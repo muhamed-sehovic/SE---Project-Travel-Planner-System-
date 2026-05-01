@@ -1,0 +1,704 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Travel Planner — Plan Your Journey</title>
+    <meta name="description" content="Plan, organize, and manage your trips with Travel Planner System.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Original Template CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/flaticon.css">
+    <link rel="stylesheet" href="assets/css/slicknav.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/nice-select.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        body, h1, h2, h3, h4, h5, h6, p, a, span, li, div {
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+        }
+
+        .trip-card-preview {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 12px 48px rgba(0,0,0,0.14);
+            padding: 28px;
+            border: 1px solid #eee;
+            max-width: 420px;
+            margin-left: auto;
+        }
+        .tcp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .tcp-title { font-size: 1.1rem; font-weight: 700; color: #333; }
+        .tcp-dates { font-size: 12px; color: #999; margin-top: 3px; }
+        .tcp-badge { background: #d8f3dc; color: #2d6a4f; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 50px; white-space: nowrap; }
+        .tcp-progress { margin-bottom: 14px; }
+        .tcp-progress-label { display: flex; justify-content: space-between; font-size: 12px; color: #999; margin-bottom: 6px; }
+        .tp-bar { height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
+        .tp-bar-fill { height: 100%; background: #16a085; border-radius: 3px; }
+        .tp-bar-fill.warn { background: #e07a3a; }
+        .tcp-days { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+        .tcp-day { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #f8f9fb; border-radius: 12px; font-size: 13px; }
+        .tcp-day-num { width: 28px; height: 28px; background: #16a085; color: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+        .tcp-day-info { flex: 1; }
+        .tcp-day-name { font-weight: 600; color: #333; font-size: 13px; }
+        .tcp-day-sub { font-size: 11px; color: #aaa; }
+        .tcp-day-time { font-size: 11px; color: #aaa; white-space: nowrap; }
+
+        .hero-visual-wrap { position: relative; }
+        .float-budget { position: absolute; bottom: -18px; right: -10px; background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 14px 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.1); min-width: 175px; }
+        .float-budget-label { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; }
+        .float-budget-amount { font-size: 1.6rem; font-weight: 800; color: #333; line-height: 1.2; }
+        .float-budget-sub { font-size: 11px; color: #e07a3a; margin-top: 2px; }
+
+        .planner-feature-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 30px 26px;
+            border: 1px solid #eeeff2;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+            transition: box-shadow 0.25s, transform 0.25s;
+            height: 100%;
+        }
+        .planner-feature-card:hover { box-shadow: 0 10px 36px rgba(0,0,0,0.09); transform: translateY(-4px); }
+
+        .pf-icon-wrap {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+        .pf-icon-wrap svg { width: 28px; height: 28px; }
+
+        .pf-icon-wrap.green   { background: #d8f3dc; }
+        .pf-icon-wrap.teal    { background: #d0f0ee; }
+        .pf-icon-wrap.amber   { background: #fef3db; }
+        .pf-icon-wrap.rose    { background: #fde8e8; }
+        .pf-icon-wrap.indigo  { background: #e8eafd; }
+        .pf-icon-wrap.sky     { background: #ddf1fb; }
+
+        .planner-feature-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: #1a1a1a; }
+        .planner-feature-card p  { font-size: 13px; color: #8a8f9e; line-height: 1.65; margin: 0; }
+
+        .hiw-wrap { background: linear-gradient(135deg, #1b4332 0%, #0d2b20 100%); padding: 90px 0; }
+        .step-circle { width: 64px; height: 64px; border: 2px solid rgba(255,255,255,0.18); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 800; color: #fff; margin: 0 auto 16px; background: rgba(255,255,255,0.07); }
+        .step-box { text-align: center; padding: 0 12px; }
+        .step-box h5 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .step-box p  { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; margin: 0; }
+
+        .trip-list-card { background: #fff; border-radius: 18px; padding: 24px; border: 1px solid #eeeff2; box-shadow: 0 2px 16px rgba(0,0,0,0.04); transition: box-shadow 0.25s, transform 0.25s; }
+        .trip-list-card:hover { box-shadow: 0 10px 36px rgba(0,0,0,0.09); transform: translateY(-4px); }
+        .tlc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .tlc-flag { width: 44px; height: 44px; background: #f4f5f7; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+        .tlc-status { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 50px; }
+        .tlc-status.ongoing { background: #d5f5e3; color: #1e8449; }
+        .tlc-status.planned { background: #d6eaf8; color: #2471a3; }
+        .tlc-status.done    { background: #f4f4f4; color: #999; }
+        .tlc-name { font-size: 16px; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
+        .tlc-meta { font-size: 12px; color: #aaa; display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+        .tlc-meta span { display: flex; align-items: center; gap: 4px; }
+        .tlc-budget-row { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid #f0f0f0; font-size: 12px; }
+        .tlc-budget-label { color: #aaa; }
+        .tlc-budget-val { font-weight: 700; color: #333; }
+        .tlc-bar { height: 4px; background: #eee; border-radius: 2px; margin-top: 7px; overflow: hidden; }
+        .tlc-bar-fill { height: 100%; border-radius: 2px; background: #16a085; }
+        .tlc-bar-fill.warn { background: #e07a3a; }
+        .tlc-bar-fill.done { background: #ccc; }
+
+        .cta-planner { background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%); border-radius: 24px; padding: 72px 40px; text-align: center; position: relative; overflow: hidden; }
+        .cta-planner::before { content: ''; position: absolute; top: -80px; right: -80px; width: 320px; height: 320px; background: rgba(255,255,255,0.04); border-radius: 50%; }
+        .cta-planner::after { content: ''; position: absolute; bottom: -60px; left: -60px; width: 220px; height: 220px; background: rgba(255,255,255,0.03); border-radius: 50%; }
+        .cta-planner h2 { font-size: 2.3rem; color: #fff; margin-bottom: 14px; font-weight: 800; }
+        .cta-planner p  { color: rgba(255,255,255,0.62); font-size: 15px; max-width: 460px; margin: 0 auto 36px; }
+        .btn-cta-white { display: inline-block; background: #fff; color: #2d6a4f; font-weight: 700; font-size: 14px; padding: 15px 40px; border-radius: 50px; transition: opacity 0.2s, transform 0.2s; }
+        .btn-cta-white:hover { opacity: 0.92; transform: translateY(-2px); color: #2d6a4f; }
+
+        .planner-section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #16a085; margin-bottom: 8px; display: block; }
+        .hero__caption .planner-label-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.18); color: #fff; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 14px; border-radius: 50px; margin-bottom: 18px; backdrop-filter: blur(4px); }
+        .hero__caption .btn-hero { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: #2d6a4f; font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 50px; margin-top: 28px; transition: opacity 0.2s, transform 0.2s; }
+        .hero__caption .btn-hero:hover { opacity: 0.92; transform: translateY(-2px); color: #1b4332; }
+        .hero__caption .hero-sub-note { display: block; margin-top: 14px; font-size: 13px; color: rgba(255,255,255,0.65); }
+
+        .header-top { display: none !important; }
+
+        .header-bottom { box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
+    </style>
+</head>
+
+<body>
+<!-- Preloader -->
+<div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="preloader-circle"></div>
+            <div class="preloader-img pere-text">
+                <img src="assets/img/logo/logo.png" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
+<header>
+    <div class="header-area">
+        <div class="main-header">
+            <!-- Top bar removed -->
+            <div class="header-bottom header-sticky">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-2 col-lg-2 col-md-1">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/logo.png" alt="Travel Planner"></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-10 col-lg-10 col-md-10">
+                            <div class="main-menu f-right d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a href="destinations.html">Destinations</a></li>
+                                        <li><a href="mytrips.html">My Trips</a></li>
+                                        <li><a href="login.html">Login / Register</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <!-- ── HERO ── -->
+    <div class="slider-area">
+        <div class="slider-active">
+            <div class="single-slider hero-overly slider-height d-flex align-items-center"
+                 data-background="assets/img/hero/h1_hero.jpg">
+                <div class="container">
+                    <div class="row align-items-center">
+
+                        <div class="col-xl-6 col-lg-6 col-md-12">
+                            <div class="hero__caption">
+                                <span class="planner-label-pill">
+                                    <i class="fas fa-map-pin"></i> Your personal trip planner
+                                </span>
+                                <h1>Plan your trips,<br><span>your way.</span></h1>
+                                <p>Create itineraries day by day, track your budget, save favourite destinations, and share your trips — all in one organised place.</p>
+                                <a href="mytrips.html" class="btn-hero">
+                                    <i class="fas fa-plus"></i> Create a trip
+                                </a>
+                                <span class="hero-sub-note">Free to get started &nbsp;·&nbsp; No credit card needed</span>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 d-none d-lg-block">
+                            <div class="hero-visual-wrap" style="padding: 20px 20px 40px 20px;">
+                                <div class="trip-card-preview">
+                                    <div class="tcp-header">
+                                        <div>
+                                            <div class="tcp-title">🇯🇵 Japan Trip 2025</div>
+                                            <div class="tcp-dates">Jun 10 — Jun 22 &nbsp;·&nbsp; 12 days</div>
+                                        </div>
+                                        <span class="tcp-badge">In Progress</span>
+                                    </div>
+                                    <div class="tcp-progress">
+                                        <div class="tcp-progress-label">
+                                            <span>Budget Used</span><span>$1,640 / $2,000</span>
+                                        </div>
+                                        <div class="tp-bar"><div class="tp-bar-fill warn" style="width:82%"></div></div>
+                                    </div>
+                                    <div class="tcp-progress">
+                                        <div class="tcp-progress-label">
+                                            <span>Itinerary Planned</span><span>8 / 12 days</span>
+                                        </div>
+                                        <div class="tp-bar"><div class="tp-bar-fill" style="width:65%"></div></div>
+                                    </div>
+                                    <div class="tcp-days">
+                                        <div class="tcp-day">
+                                            <div class="tcp-day-num">D1</div>
+                                            <div class="tcp-day-info">
+                                                <div class="tcp-day-name">Arrive in Tokyo</div>
+                                                <div class="tcp-day-sub">Shinjuku check-in, Shibuya crossing</div>
+                                            </div>
+                                            <div class="tcp-day-time">09:00</div>
+                                        </div>
+                                        <div class="tcp-day">
+                                            <div class="tcp-day-num">D2</div>
+                                            <div class="tcp-day-info">
+                                                <div class="tcp-day-name">Asakusa &amp; Ueno</div>
+                                                <div class="tcp-day-sub">Senso-ji, Tokyo National Museum</div>
+                                            </div>
+                                            <div class="tcp-day-time">08:30</div>
+                                        </div>
+                                        <div class="tcp-day">
+                                            <div class="tcp-day-num">D3</div>
+                                            <div class="tcp-day-info">
+                                                <div class="tcp-day-name">Day trip to Nikko</div>
+                                                <div class="tcp-day-sub">Toshogu Shrine, Kegon Falls</div>
+                                            </div>
+                                            <div class="tcp-day-time">07:00</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="float-budget">
+                                    <div class="float-budget-label">Remaining</div>
+                                    <div class="float-budget-amount">$360</div>
+                                    <div class="float-budget-sub">⚠ Budget running low</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ── /HERO ── -->
+
+
+    <!-- ── FEATURE STRIP ── -->
+    <div class="our-services servic-padding">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                    <div class="single-services text-center mb-30">
+                        <div class="services-ion"><span class="flaticon-tour"></span></div>
+                        <div class="services-cap"><h5>Day-by-Day<br>Itinerary Builder</h5></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                    <div class="single-services text-center mb-30">
+                        <div class="services-ion"><span class="flaticon-pay"></span></div>
+                        <div class="services-cap"><h5>Budget &amp; Expense<br>Tracking</h5></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                    <div class="single-services text-center mb-30">
+                        <div class="services-ion"><span class="flaticon-experience"></span></div>
+                        <div class="services-cap"><h5>Smart Destination<br>Recommendations</h5></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                    <div class="single-services text-center mb-30">
+                        <div class="services-ion"><span class="flaticon-good"></span></div>
+                        <div class="services-cap"><h5>Trip Sharing<br>&amp; Reviews</h5></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ── /FEATURE STRIP ── -->
+
+
+    <!-- ── PLANNER FEATURES ── -->
+    <div class="favourite-place place-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-tittle text-center">
+                        <span class="planner-section-label">What you can do</span>
+                        <h2>Everything in one planner</h2>
+                        <p style="color:#8a8f9e; max-width:520px; margin: 0 auto 48px;">All the tools you need to go from idea to packed bag — without juggling spreadsheets, notes, and browser tabs.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <!-- Day-by-Day Itinerary -->
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                    <div class="planner-feature-card">
+                        <div class="pf-icon-wrap green">
+                            <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3" y="5" width="22" height="20" rx="3" stroke="#2d6a4f" stroke-width="2"/>
+                                <path d="M3 11h22" stroke="#2d6a4f" stroke-width="2"/>
+                                <path d="M9 3v4M19 3v4" stroke="#2d6a4f" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M8 16h5M8 20h8" stroke="#2d6a4f" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="20" cy="19" r="2" fill="#2d6a4f"/>
+                            </svg>
+                        </div>
+                        <h4>Day-by-Day Itinerary</h4>
+                        <p>Add activities, set times, and organise each day of your trip. Activities are sorted automatically by date and time.</p>
+                    </div>
+                </div>
+
+                <!-- Budget Tracker -->
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                    <div class="planner-feature-card">
+                        <div class="pf-icon-wrap amber">
+                            <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3" y="8" width="22" height="16" rx="3" stroke="#b45309" stroke-width="2"/>
+                                <path d="M3 13h22" stroke="#b45309" stroke-width="2"/>
+                                <path d="M8 4h12" stroke="#b45309" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="14" cy="19" r="2.5" stroke="#b45309" stroke-width="1.8"/>
+                                <path d="M14 17.5v-.5M14 21v-.5" stroke="#b45309" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h4>Budget Tracker</h4>
+                        <p>Set a total budget per trip, log expenses by category, and watch your remaining balance update in real time.</p>
+                    </div>
+                </div>
+
+                <!-- Destination Search -->
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                    <div class="planner-feature-card">
+                        <div class="pf-icon-wrap sky">
+                            <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="7" stroke="#0369a1" stroke-width="2"/>
+                                <path d="M17.5 17.5L23 23" stroke="#0369a1" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M9 12h6M12 9v6" stroke="#0369a1" stroke-width="1.8" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h4>Destination Search</h4>
+                        <p>Search and explore destinations, add them to your trip, and save your favourites for future planning.</p>
+                    </div>
+                </div>
+
+                <!-- Smart Recommendations -->
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                    <div class="planner-feature-card">
+                        <div class="pf-icon-wrap rose">
+                            <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 4l2.39 5.26 5.61.53-4.13 3.73 1.28 5.48L14 16.4l-5.15 2.6 1.28-5.48L6 9.79l5.61-.53L14 4z" stroke="#be123c" stroke-width="2" stroke-linejoin="round"/>
+                                <path d="M6 22h16" stroke="#be123c" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h4>Smart Recommendations</h4>
+                        <p>Get personalised destination suggestions based on your saved favourites and previous trips.</p>
+                    </div>
+                </div>
+
+                <!-- Share Your Trip -->
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                    <div class="planner-feature-card">
+                        <div class="pf-icon-wrap indigo">
+                            <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="21" cy="7" r="3" stroke="#4338ca" stroke-width="2"/>
+                                <circle cx="7" cy="14" r="3" stroke="#4338ca" stroke-width="2"/>
+                                <circle cx="21" cy="21" r="3" stroke="#4338ca" stroke-width="2"/>
+                                <path d="M10 12.5l8-4M10 15.5l8 4" stroke="#4338ca" stroke-width="1.8" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h4>Share Your Trip</h4>
+                        <p>Generate a read-only share link so friends and family can view your plan — budget details stay private.</p>
+                    </div>
+                </div>
+
+                <!-- Interactive Map View -->
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                    <div class="planner-feature-card">
+                        <div class="pf-icon-wrap teal">
+                            <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 4L4 7v17l6-3 8 3 6-3V4l-6 3-8-3z" stroke="#0f766e" stroke-width="2" stroke-linejoin="round"/>
+                                <path d="M10 4v17M18 7v17" stroke="#0f766e" stroke-width="2"/>
+                                <circle cx="14" cy="13" r="2" fill="#0f766e"/>
+                            </svg>
+                        </div>
+                        <h4>Interactive Map View</h4>
+                        <p>See all your destinations pinned on a live map. Click any pin for details, zoom freely, works on mobile.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- ── /PLANNER FEATURES ── -->
+
+
+    <div class="hiw-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-60">
+                    <span class="planner-section-label" style="color:#a8d5b5;">How it works</span>
+                    <h2 style="color:#fff; font-size:2.2rem; margin-bottom:10px; font-weight:800;">From idea to itinerary in minutes</h2>
+                    <p style="color:rgba(255,255,255,0.5); max-width:480px; margin:0 auto;">Four simple steps to a fully planned trip.</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-3 col-lg-3 col-md-6 mb-40">
+                    <div class="step-box">
+                        <div class="step-circle">1</div>
+                        <h5>Create an account</h5>
+                        <p>Sign up for free and access your personal trip dashboard from any device.</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 mb-40">
+                    <div class="step-box">
+                        <div class="step-circle">2</div>
+                        <h5>Create a trip</h5>
+                        <p>Name your trip, set travel dates, and add the destinations you plan to visit.</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 mb-40">
+                    <div class="step-box">
+                        <div class="step-circle">3</div>
+                        <h5>Build your itinerary</h5>
+                        <p>Add activities with times and notes for each day. Everything is sorted automatically.</p>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 mb-40">
+                    <div class="step-box">
+                        <div class="step-circle">4</div>
+                        <h5>Track &amp; share</h5>
+                        <p>Monitor your budget, get activity reminders, and share your trip with others.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ── MY TRIPS PREVIEW ── -->
+    <div class="support-company-area support-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-tittle text-center mb-55">
+                        <span class="planner-section-label">Your dashboard</span>
+                        <h2>All your trips, at a glance</h2>
+                        <p style="color:#8a8f9e; max-width:480px; margin: 0 auto;">View, edit, or start planning your next adventure — all from one place.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                    <div class="trip-list-card">
+                        <div class="tlc-top">
+                            <div class="tlc-flag">🇯🇵</div>
+                            <span class="tlc-status ongoing">Ongoing</span>
+                        </div>
+                        <div class="tlc-name">Japan Trip 2025</div>
+                        <div class="tlc-meta">
+                            <span><i class="far fa-calendar-alt"></i> Jun 10 – Jun 22</span>
+                            <span><i class="fas fa-map-marker-alt"></i> 3 destinations</span>
+                        </div>
+                        <div class="tlc-budget-row">
+                            <span class="tlc-budget-label">Budget used</span>
+                            <span class="tlc-budget-val">$1,640 / $2,000</span>
+                        </div>
+                        <div class="tlc-bar"><div class="tlc-bar-fill warn" style="width:82%"></div></div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                    <div class="trip-list-card">
+                        <div class="tlc-top">
+                            <div class="tlc-flag">🇮🇹</div>
+                            <span class="tlc-status planned">Planned</span>
+                        </div>
+                        <div class="tlc-name">Italy Road Trip</div>
+                        <div class="tlc-meta">
+                            <span><i class="far fa-calendar-alt"></i> Sep 3 – Sep 14</span>
+                            <span><i class="fas fa-map-marker-alt"></i> 5 destinations</span>
+                        </div>
+                        <div class="tlc-budget-row">
+                            <span class="tlc-budget-label">Budget used</span>
+                            <span class="tlc-budget-val">$320 / $3,500</span>
+                        </div>
+                        <div class="tlc-bar"><div class="tlc-bar-fill" style="width:9%"></div></div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                    <div class="trip-list-card">
+                        <div class="tlc-top">
+                            <div class="tlc-flag">🇵🇹</div>
+                            <span class="tlc-status done">Completed</span>
+                        </div>
+                        <div class="tlc-name">Lisbon Weekend</div>
+                        <div class="tlc-meta">
+                            <span><i class="far fa-calendar-alt"></i> Mar 7 – Mar 10</span>
+                            <span><i class="fas fa-map-marker-alt"></i> 2 destinations</span>
+                        </div>
+                        <div class="tlc-budget-row">
+                            <span class="tlc-budget-label">Budget used</span>
+                            <span class="tlc-budget-val">$740 / $800</span>
+                        </div>
+                        <div class="tlc-bar"><div class="tlc-bar-fill done" style="width:92%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ── /MY TRIPS PREVIEW ── -->
+
+
+    <!-- ── TESTIMONIALS ── -->
+    <div class="testimonial-area testimonial-padding"
+         data-background="assets/img/testmonial/testimonial_bg.jpg">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-xl-11 col-lg-11 col-md-9">
+                    <div class="h1-testimonial-active">
+                        <div class="single-testimonial text-center">
+                            <div class="testimonial-caption">
+                                <div class="testimonial-top-cap">
+                                    <img src="assets/img/icon/testimonial.png" alt="">
+                                    <p>Travel Planner changed how I organise my trips completely. The itinerary builder and budget tracker saved me so much time and stress on my last trip to Europe.</p>
+                                </div>
+                                <div class="testimonial-founder d-flex align-items-center justify-content-center">
+                                    <div class="founder-img">
+                                        <img src="assets/img/testmonial/Homepage_testi.png" alt="">
+                                    </div>
+                                    <div class="founder-text">
+                                        <span>Amina K.</span>
+                                        <p>Frequent Traveller</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single-testimonial text-center">
+                            <div class="testimonial-caption">
+                                <div class="testimonial-top-cap">
+                                    <img src="assets/img/icon/testimonial.png" alt="">
+                                    <p>I love how I can share my trip plans with friends and get recommendations based on my saved destinations. It's the travel app I've always wanted.</p>
+                                </div>
+                                <div class="testimonial-founder d-flex align-items-center justify-content-center">
+                                    <div class="founder-img">
+                                        <img src="assets/img/testmonial/Homepage_testi.png" alt="">
+                                    </div>
+                                    <div class="founder-text">
+                                        <span>Luka M.</span>
+                                        <p>Adventure Enthusiast</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ── /TESTIMONIALS ── -->
+
+
+    <!-- ── CTA BANNER ── -->
+    <div class="home-blog-area section-padding2">
+        <div class="container">
+            <div class="cta-planner">
+                <h2>Ready to plan your next trip?</h2>
+                <p>Sign up for free and start building your first itinerary in minutes. No credit card required.</p>
+                <a href="login.html" class="btn-cta-white">Get started for free</a>
+            </div>
+        </div>
+    </div>
+    <!-- ── /CTA BANNER ── -->
+
+</main>
+
+<footer>
+    <div class="footer-area footer-padding footer-bg"
+         data-background="assets/img/service/footer_bg.jpg">
+        <div class="container">
+            <div class="row d-flex justify-content-between">
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-logo mb-20">
+                            <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt="Travel Planner"></a>
+                        </div>
+                        <div class="footer-tittle">
+                            <div class="footer-pera">
+                                <p>Your personal trip planning tool. Create itineraries, track budgets, and organise every detail of your journey — all in one place.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Product</h4>
+                            <ul>
+                                <li><a href="#">My Trips</a></li>
+                                <li><a href="#">Destinations</a></li>
+                                <li><a href="#">Budget Tracker</a></li>
+                                <li><a href="#">Recommendations</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Account</h4>
+                            <ul>
+                                <li><a href="#">Login</a></li>
+                                <li><a href="#">Register</a></li>
+                                <li><a href="#">Profile Settings</a></li>
+                                <li><a href="#">Reset Password</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="#">Frequently Asked Questions</a></li>
+                                <li><a href="#">Terms &amp; Conditions</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-padding">
+                <div class="col-xl-7 col-lg-7 col-md-7">
+                    <div class="footer-copy-right">
+                        <p>Copyright &copy;<script>document.write(new Date().getFullYear())</script> TravelPlanner. All rights reserved. &nbsp;·&nbsp; IT 309 Software Engineering — IBU</p>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-5">
+                    <div class="footer-social f-right">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JS -->
+<script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="./assets/js/popper.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
+<script src="./assets/js/jquery.slicknav.min.js"></script>
+<script src="./assets/js/owl.carousel.min.js"></script>
+<script src="./assets/js/slick.min.js"></script>
+<script src="./assets/js/wow.min.js"></script>
+<script src="./assets/js/animated.headline.js"></script>
+<script src="./assets/js/jquery.magnific-popup.js"></script>
+<script src="./assets/js/jquery.scrollUp.min.js"></script>
+<script src="./assets/js/jquery.nice-select.min.js"></script>
+<script src="./assets/js/jquery.sticky.js"></script>
+<script src="./assets/js/contact.js"></script>
+<script src="./assets/js/jquery.form.js"></script>
+<script src="./assets/js/jquery.validate.min.js"></script>
+<script src="./assets/js/mail-script.js"></script>
+<script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+<script src="./assets/js/plugins.js"></script>
+<script src="./assets/js/main.js"></script>
+
+</body>
+</html>
