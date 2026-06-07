@@ -135,6 +135,72 @@
 
         .header-top { display: none !important; }
 
+        /* ── Hero card skeleton loader ── */
+        .tcp-skeleton { background: #fff; border-radius: 20px; box-shadow: 0 12px 48px rgba(0,0,0,.14); padding: 28px; border: 1px solid #eee; max-width: 420px; margin-left: auto; }
+        .skel { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
+        @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+        .skel-line { height: 12px; margin-bottom: 8px; }
+        .skel-bar  { height: 6px;  margin-bottom: 14px; border-radius: 3px; }
+        .skel-row  { height: 44px; border-radius: 12px; margin-bottom: 8px; }
+
+        /* ── Guest / logged-out card ── */
+        .hero-guest-card {
+            background: rgba(255,255,255,0.10);
+            border: 1.5px solid rgba(255,255,255,0.22);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 22px;
+            padding: 36px 32px 32px;
+            max-width: 420px;
+            margin-left: auto;
+            text-align: center;
+            box-shadow: 0 12px 48px rgba(0,0,0,0.18);
+        }
+        .hgc-icon  { font-size: 3rem; margin-bottom: 14px; }
+        .hgc-title { font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
+        .hgc-sub   { font-size: 13px; color: rgba(255,255,255,.7); margin-bottom: 26px; line-height: 1.6; }
+        .hgc-btns  { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .hgc-btn-primary {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: #fff; color: #2d6a4f; font-weight: 700; font-size: 14px;
+            padding: 12px 28px; border-radius: 50px;
+            transition: opacity .2s, transform .2s; white-space: nowrap;
+        }
+        .hgc-btn-primary:hover { opacity:.9; transform:translateY(-2px); color:#1b4332; }
+        .hgc-btn-outline {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: transparent; color: #fff; font-weight: 700; font-size: 14px;
+            padding: 11px 28px; border-radius: 50px;
+            border: 1.5px solid rgba(255,255,255,.55);
+            transition: background .2s, transform .2s; white-space: nowrap;
+        }
+        .hgc-btn-outline:hover { background: rgba(255,255,255,.12); transform:translateY(-2px); color:#fff; }
+        .hgc-features { margin-top: 24px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .hgc-feat { font-size: 12px; color: rgba(255,255,255,.65); display: flex; align-items: center; gap: 5px; }
+        .hgc-feat i { color: rgba(255,255,255,.85); font-size: 11px; }
+
+        /* ── No trips card ── */
+        .hero-no-trips-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 12px 48px rgba(0,0,0,.14);
+            padding: 36px 28px;
+            max-width: 420px;
+            margin-left: auto;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+        .hntc-icon  { font-size: 2.8rem; margin-bottom: 12px; }
+        .hntc-title { font-size: 1.1rem; font-weight: 800; color: #1a1a1a; margin-bottom: 6px; }
+        .hntc-sub   { font-size: 13px; color: #8a8f9e; margin-bottom: 22px; line-height: 1.6; }
+        .hntc-btn   {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: #2d6a4f; color: #fff; font-weight: 700; font-size: 14px;
+            padding: 12px 28px; border-radius: 50px;
+            transition: background .2s, transform .2s;
+        }
+        .hntc-btn:hover { background:#1b4332; transform:translateY(-2px); color:#fff; }
+
         .header-bottom { box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
     </style>
 </head>
@@ -171,7 +237,7 @@
                                         <li><a href="index.html">Home</a></li>
                                         <li><a href="destinations.html">Destinations</a></li>
                                         <li><a href="mytrips.html">My Trips</a></li>
-                                        <li><a href="login.html">Login / Register</a></li>
+                                        <li id="nav-auth-item"><a href="login.html">Login / Register</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -211,59 +277,8 @@
                         </div>
 
                         <div class="col-xl-6 col-lg-6 d-none d-lg-block">
-                            <div class="hero-visual-wrap" style="padding: 20px 20px 40px 20px;">
-                                <div class="trip-card-preview">
-                                    <div class="tcp-header">
-                                        <div>
-                                            <div class="tcp-title">🇯🇵 Japan Trip 2025</div>
-                                            <div class="tcp-dates">Jun 10 — Jun 22 &nbsp;·&nbsp; 12 days</div>
-                                        </div>
-                                        <span class="tcp-badge">In Progress</span>
-                                    </div>
-                                    <div class="tcp-progress">
-                                        <div class="tcp-progress-label">
-                                            <span>Budget Used</span><span>$1,640 / $2,000</span>
-                                        </div>
-                                        <div class="tp-bar"><div class="tp-bar-fill warn" style="width:82%"></div></div>
-                                    </div>
-                                    <div class="tcp-progress">
-                                        <div class="tcp-progress-label">
-                                            <span>Itinerary Planned</span><span>8 / 12 days</span>
-                                        </div>
-                                        <div class="tp-bar"><div class="tp-bar-fill" style="width:65%"></div></div>
-                                    </div>
-                                    <div class="tcp-days">
-                                        <div class="tcp-day">
-                                            <div class="tcp-day-num">D1</div>
-                                            <div class="tcp-day-info">
-                                                <div class="tcp-day-name">Arrive in Tokyo</div>
-                                                <div class="tcp-day-sub">Shinjuku check-in, Shibuya crossing</div>
-                                            </div>
-                                            <div class="tcp-day-time">09:00</div>
-                                        </div>
-                                        <div class="tcp-day">
-                                            <div class="tcp-day-num">D2</div>
-                                            <div class="tcp-day-info">
-                                                <div class="tcp-day-name">Asakusa &amp; Ueno</div>
-                                                <div class="tcp-day-sub">Senso-ji, Tokyo National Museum</div>
-                                            </div>
-                                            <div class="tcp-day-time">08:30</div>
-                                        </div>
-                                        <div class="tcp-day">
-                                            <div class="tcp-day-num">D3</div>
-                                            <div class="tcp-day-info">
-                                                <div class="tcp-day-name">Day trip to Nikko</div>
-                                                <div class="tcp-day-sub">Toshogu Shrine, Kegon Falls</div>
-                                            </div>
-                                            <div class="tcp-day-time">07:00</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="float-budget">
-                                    <div class="float-budget-label">Remaining</div>
-                                    <div class="float-budget-amount">$360</div>
-                                    <div class="float-budget-sub">⚠ Budget running low</div>
-                                </div>
+                            <div class="hero-visual-wrap" style="padding: 20px 20px 40px 20px;" id="heroCardWrap">
+                                <!-- Populated dynamically by heroCard.js below -->
                             </div>
                         </div>
 
@@ -624,10 +639,10 @@
                         <div class="footer-tittle">
                             <h4>Product</h4>
                             <ul>
-                                <li><a href="#">My Trips</a></li>
-                                <li><a href="#">Destinations</a></li>
-                                <li><a href="#">Budget Tracker</a></li>
-                                <li><a href="#">Recommendations</a></li>
+                                <li><a href="mytrips.html">My Trips</a></li>
+                                <li><a href="destinations.html">Destinations</a></li>
+                                <li><a href="mytrips.html">Budget Tracker</a></li>
+                                <li><a href="destinations.html">Recommendations</a></li>
                             </ul>
                         </div>
                     </div>
@@ -637,10 +652,10 @@
                         <div class="footer-tittle">
                             <h4>Account</h4>
                             <ul>
-                                <li><a href="#">Login</a></li>
-                                <li><a href="#">Register</a></li>
-                                <li><a href="#">Profile Settings</a></li>
-                                <li><a href="#">Reset Password</a></li>
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="login.html">Register</a></li>
+                                <li><a href="profile.html">Profile Settings</a></li>
+                                <li><a href="login.html">Reset Password</a></li>
                             </ul>
                         </div>
                     </div>
@@ -650,10 +665,10 @@
                         <div class="footer-tittle">
                             <h4>Support</h4>
                             <ul>
-                                <li><a href="#">Frequently Asked Questions</a></li>
-                                <li><a href="#">Terms &amp; Conditions</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="faq.html">Frequently Asked Questions</a></li>
+                                <li><a href="terms.html">Terms &amp; Conditions</a></li>
+                                <li><a href="privacy.html">Privacy Policy</a></li>
+                                <li><a href="contact.html">Contact Us</a></li>
                             </ul>
                         </div>
                     </div>
@@ -699,6 +714,272 @@
 <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
 <script src="./assets/js/plugins.js"></script>
 <script src="./assets/js/main.js"></script>
+
+<script>
+(function () {
+    const token = localStorage.getItem('tp_token');
+    const user  = JSON.parse(localStorage.getItem('tp_user') || '{}');
+    const item  = document.getElementById('nav-auth-item');
+    if (!item) return;
+
+    if (token && (user.first_name || user.username)) {
+        const name = user.first_name || user.username;
+        item.innerHTML = `<a href="profile.html" style="font-weight:700;">Hi, ${name}</a>`;
+        item.insertAdjacentHTML('afterend',
+            `<li><a href="#" id="navLogoutBtn" style="font-size:13px;opacity:.75;">Logout</a></li>`);
+        document.getElementById('navLogoutBtn').addEventListener('click', function (e) {
+            e.preventDefault();
+            localStorage.removeItem('tp_token');
+            localStorage.removeItem('tp_user');
+            window.location.href = 'login.html';
+        });
+    }
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   HERO CARD — dynamic trip preview
+   Shows skeleton → real trip (if logged in) or guest CTA
+══════════════════════════════════════════════════════ */
+(function () {
+    const API   = 'http://localhost:8080/api';
+    const token = localStorage.getItem('tp_token');
+    const user  = JSON.parse(localStorage.getItem('tp_user') || '{}');
+    const wrap  = document.getElementById('heroCardWrap');
+    if (!wrap) return;
+
+    /* ── helpers ── */
+    function esc(s) {
+        return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function fmtDate(d) {
+        if (!d) return '';
+        const dt = new Date(d);
+        const mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return dt.getDate() + ' ' + mo[dt.getMonth()];
+    }
+    function tripDays(t) {
+        return Math.max(1, Math.round((new Date(t.end_date) - new Date(t.start_date)) / 86400000) + 1);
+    }
+    function calcSpent(t) {
+        return (t.expenses || []).reduce(function(s, e) { return s + Number(e.amount || 0); }, 0);
+    }
+    function getDayNum(t, dateStr) {
+        return Math.max(1, Math.round((new Date(dateStr) - new Date(t.start_date)) / 86400000) + 1);
+    }
+    function tripStatus(t) {
+        const now = new Date(), s = new Date(t.start_date), e = new Date(t.end_date);
+        if (now >= s && now <= e) return 'ongoing';
+        if (now < s) return 'planned';
+        return 'completed';
+    }
+    function fmtMoney(n) {
+        return '$' + Number(n || 0).toLocaleString('en-US', { maximumFractionDigits: 0 });
+    }
+
+    /* ── skeleton while loading ── */
+    function showSkeleton() {
+        wrap.innerHTML = `
+        <div class="tcp-skeleton">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
+                <div style="flex:1;">
+                    <div class="skel skel-line" style="width:60%;margin-bottom:8px;"></div>
+                    <div class="skel skel-line" style="width:40%;height:10px;"></div>
+                </div>
+                <div class="skel" style="width:80px;height:24px;border-radius:50px;margin-left:14px;flex-shrink:0;"></div>
+            </div>
+            <div class="skel skel-line" style="width:50%;margin-bottom:6px;"></div>
+            <div class="skel skel-bar" style="width:100%;"></div>
+            <div class="skel skel-line" style="width:50%;margin-bottom:6px;"></div>
+            <div class="skel skel-bar" style="width:100%;"></div>
+            <div class="skel skel-row" style="width:100%;"></div>
+            <div class="skel skel-row" style="width:100%;"></div>
+            <div class="skel skel-row" style="width:100%;"></div>
+        </div>`;
+    }
+
+    /* ── guest / not logged-in card ── */
+    function showGuestCard() {
+        wrap.innerHTML = `
+        <div class="hero-guest-card">
+            <div class="hgc-icon">🗺️</div>
+            <div class="hgc-title">Your trips live here</div>
+            <div class="hgc-sub">Log in to see your active trips, budget tracker, and day-by-day itinerary — right here on the home screen.</div>
+            <div class="hgc-btns">
+                <a href="login.html" class="hgc-btn-primary"><i class="fas fa-user-plus"></i> Create account</a>
+                <a href="login.html"    class="hgc-btn-outline"><i class="fas fa-sign-in-alt"></i> Log in</a>
+            </div>
+            <div class="hgc-features">
+                <span class="hgc-feat"><i class="fas fa-check-circle"></i> Free to use</span>
+                <span class="hgc-feat"><i class="fas fa-check-circle"></i> No credit card</span>
+                <span class="hgc-feat"><i class="fas fa-check-circle"></i> Unlimited trips</span>
+            </div>
+        </div>`;
+    }
+
+    /* ── no trips yet card ── */
+    function showNoTripsCard(firstName) {
+        const greeting = firstName ? 'Welcome, ' + esc(firstName) + '!' : 'You\'re all set!';
+        wrap.innerHTML = `
+        <div class="hero-no-trips-card">
+            <div class="hntc-icon">✈️</div>
+            <div class="hntc-title">${greeting}</div>
+            <div class="hntc-sub">You don't have any trips yet. Create your first itinerary, set a budget, and start planning your next adventure.</div>
+            <a href="mytrips.html" class="hntc-btn"><i class="fas fa-plus"></i> Create your first trip</a>
+        </div>`;
+    }
+
+    /* ── render a real trip card ── */
+    function showTripCard(t) {
+        const status   = tripStatus(t);
+        const spent    = calcSpent(t);
+        const budget   = t.budget ? Number(t.budget) : null;
+        const pct      = budget ? Math.min(100, Math.round((spent / budget) * 100)) : 0;
+        const rem      = budget != null ? budget - spent : null;
+        const days     = tripDays(t);
+        const itinerary = t.itinerary || [];
+        const daysPlanned = [...new Set(itinerary.map(function(a) { return a.activity_date; }))].length;
+
+        const barCls = pct >= 100 ? 'over' : pct >= 80 ? 'warn' : '';
+
+        /* Budget float card */
+        let floatHtml = '';
+        if (budget != null) {
+            const remAbs = Math.abs(rem);
+            const isOver = rem < 0;
+            const isWarn = !isOver && pct >= 80;
+            const remColor = isOver ? '#c0392b' : isWarn ? '#e07a3a' : '#16a085';
+            const remLabel = isOver
+                ? '⚠ Over budget by ' + fmtMoney(remAbs)
+                : isWarn
+                    ? '⚠ Budget running low'
+                    : '✓ Looking good';
+            floatHtml = `
+            <div class="float-budget">
+                <div class="float-budget-label">Remaining</div>
+                <div class="float-budget-amount" style="color:${remColor}">${fmtMoney(isOver ? 0 : rem)}</div>
+                <div class="float-budget-sub" style="color:${remColor}">${remLabel}</div>
+            </div>`;
+        }
+
+        /* Status badge */
+        const badgeMap = { ongoing: 'In Progress', planned: 'Upcoming', completed: 'Completed' };
+        const badgeTxt = badgeMap[status] || status;
+
+        /* Itinerary preview — up to 3 activities */
+        const preview = itinerary.slice(0, 3);
+        const daysHtml = preview.length
+            ? preview.map(function(a) {
+                return `<div class="tcp-day">
+                    <div class="tcp-day-num">D${getDayNum(t, a.activity_date)}</div>
+                    <div class="tcp-day-info">
+                        <div class="tcp-day-name">${esc(a.title)}</div>
+                        <div class="tcp-day-sub">${esc(a.description || '—')}</div>
+                    </div>
+                    <div class="tcp-day-time">${a.activity_time ? String(a.activity_time).slice(0,5) : '—'}</div>
+                </div>`;
+            }).join('')
+            : `<div style="font-size:12px;color:#aaa;font-style:italic;text-align:center;padding:8px 0;">No activities yet — <a href="mytrips.html" style="color:#16a085;font-weight:700;">add some</a></div>`;
+
+        /* Budget progress section */
+        const budgetHtml = budget != null ? `
+        <div class="tcp-progress">
+            <div class="tcp-progress-label">
+                <span>Budget Used</span><span>${fmtMoney(spent)} / ${fmtMoney(budget)}</span>
+            </div>
+            <div class="tp-bar"><div class="tp-bar-fill ${barCls}" style="width:${pct}%"></div></div>
+        </div>` : `
+        <div class="tcp-progress">
+            <div class="tcp-progress-label" style="justify-content:center;">
+                <span style="color:#aaa;font-size:12px;">No budget set &nbsp;·&nbsp; <a href="mytrips.html" style="color:#16a085;font-weight:700;">Add one</a></span>
+            </div>
+        </div>`;
+
+        /* Itinerary progress bar */
+        const itPct = days > 0 ? Math.min(100, Math.round((daysPlanned / days) * 100)) : 0;
+
+        wrap.innerHTML = `
+        <div style="position:relative;">
+            <a href="mytrips.html" class="trip-card-preview" style="display:block;text-decoration:none;cursor:pointer;transition:box-shadow .25s,transform .25s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 20px 60px rgba(0,0,0,0.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div class="tcp-header">
+                    <div>
+                        <div class="tcp-title">🌍 ${esc(t.name)}</div>
+                        <div class="tcp-dates">${fmtDate(t.start_date)} — ${fmtDate(t.end_date)} &nbsp;·&nbsp; ${days} days</div>
+                    </div>
+                    <span class="tcp-badge">${badgeTxt}</span>
+                </div>
+                ${budgetHtml}
+                <div class="tcp-progress">
+                    <div class="tcp-progress-label">
+                        <span>Itinerary Planned</span><span>${daysPlanned} / ${days} days</span>
+                    </div>
+                    <div class="tp-bar"><div class="tp-bar-fill" style="width:${itPct}%"></div></div>
+                </div>
+                <div class="tcp-days">${daysHtml}</div>
+            </a>
+            ${floatHtml}
+        </div>`;
+    }
+
+    /* ── pick the best trip to feature (ongoing > soonest planned > most recent) ── */
+    function pickFeaturedTrip(trips) {
+        if (!trips.length) return null;
+        const ongoing  = trips.filter(function(t) { return tripStatus(t) === 'ongoing'; });
+        if (ongoing.length) return ongoing[0];
+        const planned  = trips.filter(function(t) { return tripStatus(t) === 'planned'; });
+        if (planned.length) return planned.sort(function(a,b) { return new Date(a.start_date)-new Date(b.start_date); })[0];
+        return trips.sort(function(a,b) { return b.id - a.id; })[0];
+    }
+
+    /* ── main flow ── */
+    if (!token) {
+        showGuestCard();
+        return;
+    }
+
+    /* logged in — show skeleton while fetching */
+    showSkeleton();
+
+    fetch(API + '/trips', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(function(res) {
+        if (res.status === 401) {
+            /* token expired — clear and show guest card */
+            localStorage.removeItem('tp_token');
+            localStorage.removeItem('tp_user');
+            showGuestCard();
+            return null;
+        }
+        return res.json();
+    })
+    .then(function(data) {
+        if (!data) return;
+        const trips = Array.isArray(data) ? data : (data.trips || []);
+        const featured = pickFeaturedTrip(trips);
+
+        if (!featured) {
+            showNoTripsCard(user.first_name || user.username);
+            return;
+        }
+
+        /* fetch full details for the featured trip (itinerary + expenses) */
+        return fetch(API + '/trips/' + featured.id, {
+            headers: { 'Authorization': 'Bearer ' + token }
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(detail) {
+            const full = detail.trip || detail;
+            showTripCard(Object.assign({}, featured, full));
+        });
+    })
+    .catch(function() {
+        /* network error — still show guest card rather than broken skeleton */
+        showGuestCard();
+    });
+})();
+</script>
 
 </body>
 </html>

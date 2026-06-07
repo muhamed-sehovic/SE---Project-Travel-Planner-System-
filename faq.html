@@ -1,0 +1,519 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>FAQ — Travel Planner</title>
+    <meta name="description" content="Frequently asked questions about Travel Planner.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body, h1,h2,h3,h4,h5,h6,p,a,span,li,div,button { font-family: 'Plus Jakarta Sans', sans-serif !important; }
+        :root {
+            --g-deep: #1b4332; --g-mid: #2d6a4f; --g-teal: #16a085;
+            --g-light: #d8f3dc; --border: #eeeff2; --muted: #8a8f9e; --text: #1a1a1a;
+        }
+        .header-top  { display: none !important; }
+        .header-bottom { box-shadow: 0 2px 16px rgba(0,0,0,.06); }
+
+        /* ── PAGE HERO ── */
+        .page-hero {
+            background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+            padding: 80px 0 64px;
+            text-align: center;
+        }
+        .page-hero .ph-label {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,.14); color: #fff;
+            font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+            padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
+        }
+        .page-hero h1 { font-size: 2.4rem; font-weight: 800; color: #fff; margin-bottom: 12px; }
+        .page-hero p  { color: rgba(255,255,255,.65); font-size: 15px; max-width: 500px; margin: 0 auto; }
+
+        /* ── SEARCH ── */
+        .faq-search-wrap { max-width: 520px; margin: -30px auto 0; position: relative; z-index: 10; padding: 0 20px; }
+        .faq-search { display: flex; align-items: center; background: #fff; border-radius: 50px; box-shadow: 0 8px 32px rgba(0,0,0,.12); border: 1.5px solid var(--border); overflow: hidden; }
+        .faq-search i { padding: 0 16px; color: var(--muted); font-size: 14px; flex-shrink: 0; }
+        .faq-search input { flex: 1; border: none; outline: none; font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; padding: 14px 0; color: var(--text); background: transparent; }
+        .faq-search input::placeholder { color: #bbb; }
+
+        /* ── LAYOUT ── */
+        .faq-page { padding: 72px 0 80px; background: #f7f8fa; }
+        .faq-sidebar { position: sticky; top: 90px; }
+        .faq-cat-nav { background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; }
+        .faq-cat-nav-title { padding: 16px 20px 12px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); border-bottom: 1px solid var(--border); }
+        .faq-cat-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 13px 20px; background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 600; color: #555; border-left: 3px solid transparent; transition: all .15s; text-align: left; }
+        .faq-cat-btn:hover  { background: #f7f8fa; color: var(--g-mid); }
+        .faq-cat-btn.active { background: #f0faf4; color: var(--g-mid); border-left-color: var(--g-teal); font-weight: 700; }
+        .faq-cat-btn i { width: 18px; text-align: center; font-size: 13px; }
+
+        /* ── ACCORDION ── */
+        .faq-section { margin-bottom: 36px; }
+        .faq-section-title { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--g-teal); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+        .faq-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+        .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 14px; margin-bottom: 8px; overflow: hidden; transition: box-shadow .2s; }
+        .faq-item:hover { box-shadow: 0 4px 20px rgba(0,0,0,.06); }
+        .faq-q {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 22px; cursor: pointer;
+            font-size: 14px; font-weight: 700; color: var(--text);
+            gap: 14px; user-select: none;
+        }
+        .faq-q .faq-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--g-light); color: var(--g-mid); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; transition: background .2s, transform .25s; }
+        .faq-item.open .faq-q .faq-icon { background: var(--g-mid); color: #fff; transform: rotate(45deg); }
+        .faq-a { display: none; padding: 0 22px 18px; font-size: 14px; color: var(--muted); line-height: 1.75; border-top: 1px solid var(--border); padding-top: 14px; }
+        .faq-a a { color: var(--g-teal); font-weight: 600; }
+        .faq-item.open .faq-a { display: block; }
+
+        /* ── STILL NEED HELP ── */
+        .faq-help-banner { background: linear-gradient(135deg, var(--g-deep), var(--g-mid)); border-radius: 20px; padding: 48px 36px; text-align: center; color: #fff; margin-top: 48px; }
+        .faq-help-banner h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
+        .faq-help-banner p  { color: rgba(255,255,255,.65); font-size: 14px; margin-bottom: 22px; }
+        .btn-help { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: var(--g-mid); font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 50px; transition: opacity .2s, transform .2s; }
+        .btn-help:hover { opacity: .9; transform: translateY(-2px); color: var(--g-deep); }
+
+        /* ── FOOTER (shared) ── */
+        .header-bottom { box-shadow: 0 2px 16px rgba(0,0,0,.06); }
+        .no-results { text-align: center; padding: 48px 20px; color: var(--muted); font-size: 14px; display: none; }
+        .no-results i { font-size: 2rem; margin-bottom: 12px; display: block; color: #ccc; }
+    </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+    <div class="header-area">
+        <div class="main-header">
+            <div class="header-bottom header-sticky">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-2 col-lg-2 col-md-2">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/logo.png" alt="Travel Planner"></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-10 col-lg-10 col-md-10">
+                            <div class="main-menu f-right d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a href="destinations.html">Destinations</a></li>
+                                        <li><a href="mytrips.html">My Trips</a></li>
+                                        <li id="nav-auth-item"><a href="login.html">Login / Register</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-12"><div class="mobile_menu d-block d-lg-none"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ── PAGE HERO ── -->
+<div class="page-hero">
+    <div class="container">
+        <span class="ph-label"><i class="fas fa-question-circle"></i> Support</span>
+        <h1>Frequently Asked Questions</h1>
+        <p>Everything you need to know about planning trips with Travel Planner.</p>
+    </div>
+</div>
+
+<!-- ── FAQ SEARCH ── -->
+<div class="faq-search-wrap">
+    <div class="faq-search">
+        <i class="fas fa-search"></i>
+        <input type="text" id="faqSearch" placeholder="Search questions…" autocomplete="off">
+    </div>
+</div>
+
+<!-- ── MAIN CONTENT ── -->
+<div class="faq-page">
+    <div class="container">
+        <div class="row">
+
+            <!-- Sidebar -->
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="faq-sidebar">
+                    <div class="faq-cat-nav">
+                        <div class="faq-cat-nav-title">Categories</div>
+                        <button class="faq-cat-btn active" onclick="scrollTo('sec-account')"><i class="fas fa-user-circle"></i> Account &amp; Access</button>
+                        <button class="faq-cat-btn" onclick="scrollTo('sec-trips')"><i class="fas fa-suitcase-rolling"></i> Trips &amp; Itineraries</button>
+                        <button class="faq-cat-btn" onclick="scrollTo('sec-budget')"><i class="fas fa-wallet"></i> Budget &amp; Expenses</button>
+                        <button class="faq-cat-btn" onclick="scrollTo('sec-sharing')"><i class="fas fa-share-alt"></i> Sharing &amp; Privacy</button>
+                        <button class="faq-cat-btn" onclick="scrollTo('sec-technical')"><i class="fas fa-tools"></i> Technical</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Content -->
+            <div class="col-lg-9">
+                <div id="no-results" class="no-results">
+                    <i class="fas fa-search"></i>
+                    No questions match your search. Try different keywords or <a href="contact.html" style="color:#16a085;font-weight:700;">contact us</a>.
+                </div>
+
+                <!-- Account & Access -->
+                <div class="faq-section" id="sec-account">
+                    <div class="faq-section-title"><i class="fas fa-user-circle"></i> Account &amp; Access</div>
+
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            Is Travel Planner free to use?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Yes — Travel Planner is completely free. Create an account, build unlimited trips, and use all core features at no cost. No credit card is required to sign up.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            How do I create an account?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Click <strong>Login / Register</strong> in the navigation bar, then select <strong>Register</strong>. Enter your first name, last name, email address, and a password. Once submitted you're immediately logged in and ready to plan.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            I forgot my password. What should I do?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">On the login page, click <strong>Forgot password?</strong> and enter your registered email address. You'll receive a reset link — follow it to set a new password. If no email arrives within a few minutes, check your spam folder or <a href="contact.html">contact support</a>.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            Can I change my email address or username?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Yes. Head to your <strong>Profile Settings</strong> page (click your name in the navigation bar once logged in) and update your email, name, or password there.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            Can I use Travel Planner on my phone?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Yes. The site is fully responsive and works in any modern mobile browser. There is no separate app to install — just open the site, log in, and everything adapts to your screen size.</div>
+                    </div>
+                </div>
+
+                <!-- Trips & Itineraries -->
+                <div class="faq-section" id="sec-trips">
+                    <div class="faq-section-title"><i class="fas fa-suitcase-rolling"></i> Trips &amp; Itineraries</div>
+
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            How do I create a new trip?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Go to <strong>My Trips</strong> and click the <strong>+ New Trip</strong> button. Enter a trip name, start date, end date, and an optional total budget. Once saved, you can open the trip to add destinations and itinerary activities.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            How many trips can I create?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">There is no limit. Create as many trips as you need — past, present, and future.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            How do I add activities to my itinerary?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Open a trip card and click <strong>Open</strong>. In the trip detail view, switch to the <strong>Itinerary</strong> tab and click <strong>+ Add Activity</strong>. Fill in the activity title, date, time, and an optional description. Activities are sorted automatically by date and time.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            Can I add multiple destinations to one trip?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Yes. Inside the trip detail view, use the <strong>Destinations</strong> tab to search for and add as many destinations as you like. Each destination can include notes and will appear as a pin on the interactive map.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            How do I delete a trip?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">On the <strong>My Trips</strong> page, click the red trash icon on any trip card. You'll be asked to confirm before anything is permanently deleted. This also removes all itinerary items, expenses, and destinations linked to that trip.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            What do the trip statuses mean?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Statuses are calculated automatically from your trip dates: <strong>Ongoing</strong> means today falls between the start and end date; <strong>Planned</strong> means the trip starts in the future; <strong>Completed</strong> means the end date has passed. You don't need to set these manually.</div>
+                    </div>
+                </div>
+
+                <!-- Budget & Expenses -->
+                <div class="faq-section" id="sec-budget">
+                    <div class="faq-section-title"><i class="fas fa-wallet"></i> Budget &amp; Expenses</div>
+
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            How does budget tracking work?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">When creating or editing a trip, you can set a total budget in USD. Inside the trip detail, log individual expenses under the <strong>Expenses</strong> tab — each with an amount, category, and optional note. The budget bar updates in real time to show how much you've spent and how much remains.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            What expense categories are available?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Available categories are: <strong>Transport</strong>, <strong>Accommodation</strong>, <strong>Food</strong>, <strong>Activities</strong>, <strong>Flights</strong>, and <strong>Other</strong>. Each category has a distinct colour and emoji for quick scanning.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            What happens when I go over budget?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">The budget bar turns red and an "Over budget" warning appears with the amount exceeded. You won't be blocked from adding more expenses — the tracker is informational, not a hard limit.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            Can I edit or delete an expense after saving it?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Yes. In the Expenses tab of any trip, each expense row has an edit (pencil) and delete (trash) icon. Changes update the budget totals instantly.</div>
+                    </div>
+                </div>
+
+                <!-- Sharing & Privacy -->
+                <div class="faq-section" id="sec-sharing">
+                    <div class="faq-section-title"><i class="fas fa-share-alt"></i> Sharing &amp; Privacy</div>
+
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            Can I share my trip with friends or family?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Yes. Open a trip and use the <strong>Share</strong> option to generate a read-only link. Anyone with the link can view your itinerary and destinations — but cannot edit anything, and your expense amounts stay private.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            Is my personal data safe?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Your data is stored securely and never sold to third parties. Passwords are hashed before storage. See our <a href="privacy.html">Privacy Policy</a> for full details on what data we collect and how it's used.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            Who can see my trips?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Only you can see your trips when logged in. Trips are private by default. They become visible to others only if you explicitly generate and share a share link.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            How do I delete my account?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">To request account deletion, please <a href="contact.html">contact us</a>. We'll permanently remove your account and all associated data within 7 business days.</div>
+                    </div>
+                </div>
+
+                <!-- Technical -->
+                <div class="faq-section" id="sec-technical">
+                    <div class="faq-section-title"><i class="fas fa-tools"></i> Technical</div>
+
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            Which browsers are supported?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Travel Planner works in all modern browsers — Chrome, Firefox, Safari, and Edge. For the best experience keep your browser up to date. Internet Explorer is not supported.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            The map isn't loading on my trip. What should I do?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">The interactive map requires destinations with saved latitude/longitude coordinates. If you added a destination without coordinates, the map will show a placeholder message. Try refreshing the page, or <a href="contact.html">contact support</a> if the issue persists.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            I get logged out unexpectedly. Why?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Your session token expires after a period of inactivity for security reasons. Simply log in again. If this happens very frequently, check that your browser is not set to clear cookies or local storage on close.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q" onclick="toggleFaq(this)">
+                            Something isn't working as expected. Where do I report it?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </div>
+                        <div class="faq-a">Please use the <a href="contact.html">Contact Us</a> page to describe the issue. Include your browser, the page you were on, and steps to reproduce — it helps us fix things faster.</div>
+                    </div>
+                </div>
+
+                <!-- Still need help -->
+                <div class="faq-help-banner">
+                    <h3>Still have a question?</h3>
+                    <p>Our support team is happy to help with anything not covered above.</p>
+                    <a href="contact.html" class="btn-help"><i class="fas fa-envelope"></i> Contact Support</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+    <div class="footer-area footer-padding footer-bg" data-background="assets/img/service/footer_bg.jpg">
+        <div class="container">
+            <div class="row d-flex justify-content-between">
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-logo mb-20">
+                            <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt="Travel Planner"></a>
+                        </div>
+                        <div class="footer-tittle">
+                            <div class="footer-pera">
+                                <p>Your personal trip planning tool. Create itineraries, track budgets, and organise every detail of your journey — all in one place.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Product</h4>
+                            <ul>
+                                <li><a href="mytrips.html">My Trips</a></li>
+                                <li><a href="destinations.html">Destinations</a></li>
+                                <li><a href="mytrips.html">Budget Tracker</a></li>
+                                <li><a href="destinations.html">Recommendations</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Account</h4>
+                            <ul>
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="register.html">Register</a></li>
+                                <li><a href="profile.html">Profile Settings</a></li>
+                                <li><a href="login.html">Reset Password</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="faq.html">Frequently Asked Questions</a></li>
+                                <li><a href="terms.html">Terms &amp; Conditions</a></li>
+                                <li><a href="privacy.html">Privacy Policy</a></li>
+                                <li><a href="contact.html">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-padding">
+                <div class="col-xl-7 col-lg-7 col-md-7">
+                    <div class="footer-copy-right">
+                        <p>Copyright &copy;<script>document.write(new Date().getFullYear())</script> TravelPlanner. All rights reserved. &nbsp;·&nbsp; IT 309 Software Engineering — IBU</p>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-5">
+                    <div class="footer-social f-right">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
+<script src="./assets/js/jquery.sticky.js"></script>
+<script src="./assets/js/main.js"></script>
+
+<script>
+/* FAQ accordion */
+function toggleFaq(el) {
+    const item = el.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(function(i) { i.classList.remove('open'); });
+    if (!isOpen) item.classList.add('open');
+}
+
+/* Sidebar active on scroll */
+function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' });
+}
+
+/* Intersection observer to highlight sidebar */
+const sections = document.querySelectorAll('.faq-section');
+const catBtns  = document.querySelectorAll('.faq-cat-btn');
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+            const id = entry.target.id;
+            catBtns.forEach(function(b) { b.classList.remove('active'); });
+            const match = document.querySelector('.faq-cat-btn[onclick*="' + id + '"]');
+            if (match) match.classList.add('active');
+        }
+    });
+}, { rootMargin: '-30% 0px -60% 0px' });
+sections.forEach(function(s) { observer.observe(s); });
+
+/* Live search */
+document.getElementById('faqSearch').addEventListener('input', function() {
+    const q = this.value.trim().toLowerCase();
+    let anyVisible = false;
+    document.querySelectorAll('.faq-item').forEach(function(item) {
+        const text = item.textContent.toLowerCase();
+        const show = !q || text.includes(q);
+        item.style.display = show ? '' : 'none';
+        if (show) anyVisible = true;
+    });
+    document.querySelectorAll('.faq-section').forEach(function(sec) {
+        const visible = Array.from(sec.querySelectorAll('.faq-item')).some(function(i) { return i.style.display !== 'none'; });
+        sec.style.display = visible ? '' : 'none';
+    });
+    document.getElementById('no-results').style.display = (q && !anyVisible) ? 'block' : 'none';
+});
+
+/* Auth nav */
+(function() {
+    const token = localStorage.getItem('tp_token');
+    const user  = JSON.parse(localStorage.getItem('tp_user') || '{}');
+    const item  = document.getElementById('nav-auth-item');
+    if (!item || !token) return;
+    const name = user.first_name || user.username;
+    if (!name) return;
+    item.innerHTML = '<a href="profile.html" style="font-weight:700;">Hi, ' + name + '</a>';
+    item.insertAdjacentHTML('afterend', '<li><a href="#" id="navLogoutBtn" style="font-size:13px;opacity:.75;">Logout</a></li>');
+    document.getElementById('navLogoutBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('tp_token');
+        localStorage.removeItem('tp_user');
+        window.location.href = 'login.html';
+    });
+})();
+</script>
+</body>
+</html>

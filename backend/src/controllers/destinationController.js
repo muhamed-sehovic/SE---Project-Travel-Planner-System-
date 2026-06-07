@@ -1,8 +1,39 @@
-
-
 const db = require("../config/database");
 const { asyncHandler } = require("../middleware/errorHandler");
 
+
+const getAllDestinations = asyncHandler(async (req, res) => {
+  const [rows] = await db.pool.query(
+    "SELECT * FROM destinations ORDER BY id"
+  );
+
+  // Attach reviews for each destination
+  const withReviews = await Promise.all(
+    rows.map(async (dest) => {
+      let reviews = [];
+      try {
+        const [reviewRows] = await db.pool.query(
+          `SELECT id,
+                  COALESCE(author, 'Anonymous') AS author,
+                  rating,
+                  COALESCE(comment, body, text, content, '') AS comment,
+                  DATE_FORMAT(COALESCE(created_at, updated_at, NOW()), '%e %b %Y') AS date
+           FROM reviews
+           WHERE destination_id = ?
+           ORDER BY created_at DESC`,
+          [dest.id]
+        );
+        reviews = reviewRows;
+      } catch (_) {
+        // reviews table missing expected columns — return empty array
+        reviews = [];
+      }
+      return { ...dest, reviews };
+    })
+  );
+
+  res.json(withReviews);
+});
 
 const searchDestinations = asyncHandler(async (req, res) => {
   const query = (req.query.q || "").trim();
@@ -174,6 +205,7 @@ const getRecommendations = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  getAllDestinations,
   searchDestinations,
   getDestination,
   addDestinationToTrip,

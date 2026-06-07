@@ -1,0 +1,342 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Contact Us — Travel Planner</title>
+    <meta name="description" content="Get in touch with the Travel Planner team.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body, h1,h2,h3,h4,h5,h6,p,a,span,li,div,button,input,textarea,select,label { font-family: 'Plus Jakarta Sans', sans-serif !important; }
+        :root { --g-deep:#1b4332; --g-mid:#2d6a4f; --g-teal:#16a085; --g-light:#d8f3dc; --border:#eeeff2; --muted:#8a8f9e; --text:#1a1a1a; --amber:#e07a3a; }
+        .header-top { display: none !important; }
+        .header-bottom { box-shadow: 0 2px 16px rgba(0,0,0,.06); }
+
+        .page-hero { background: linear-gradient(135deg,#1b4332 0%,#2d6a4f 100%); padding: 80px 0 64px; text-align: center; }
+        .page-hero .ph-label { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.14); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 5px 14px; border-radius: 50px; margin-bottom: 16px; }
+        .page-hero h1 { font-size: 2.4rem; font-weight: 800; color: #fff; margin-bottom: 12px; }
+        .page-hero p  { color: rgba(255,255,255,.65); font-size: 15px; max-width: 500px; margin: 0 auto; }
+
+        .contact-page { padding: 72px 0 80px; background: #f7f8fa; }
+
+        /* Info cards */
+        .contact-info-card { background: #fff; border-radius: 18px; border: 1px solid var(--border); padding: 28px 24px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 16px; }
+        .cic-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .cic-icon.green  { background: var(--g-light); color: var(--g-mid); }
+        .cic-icon.sky    { background: #ddf1fb; color: #0369a1; }
+        .cic-icon.amber  { background: #fff3e0; color: var(--amber); }
+        .cic-icon.indigo { background: #e8eafd; color: #4338ca; }
+        .cic-title { font-size: 13px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+        .cic-body  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+        .cic-body a { color: var(--g-teal); font-weight: 600; text-decoration: none; }
+        .cic-body a:hover { text-decoration: underline; }
+
+        /* FAQ shortcut */
+        .contact-faq-card { background: linear-gradient(135deg, var(--g-deep), var(--g-mid)); border-radius: 18px; padding: 28px 24px; color: #fff; margin-top: 20px; }
+        .contact-faq-card h4 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+        .contact-faq-card p  { font-size: 13px; color: rgba(255,255,255,.65); margin-bottom: 16px; }
+        .btn-faq-link { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,.15); color: #fff; font-size: 13px; font-weight: 700; padding: 10px 20px; border-radius: 50px; border: 1.5px solid rgba(255,255,255,.3); transition: background .2s; text-decoration: none; }
+        .btn-faq-link:hover { background: rgba(255,255,255,.25); color: #fff; text-decoration: none; }
+
+        /* Contact form */
+        .contact-form-card { background: #fff; border-radius: 18px; border: 1px solid var(--border); padding: 40px 44px; }
+        .form-section-title { font-size: 1.3rem; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+        .form-section-sub   { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+
+        .cf-group { margin-bottom: 20px; }
+        .cf-label { display: block; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 7px; }
+        .cf-label span { color: var(--amber); }
+        .cf-input, .cf-select, .cf-textarea {
+            width: 100%; padding: 12px 16px;
+            border: 1.5px solid var(--border); border-radius: 12px;
+            font-size: 14px; color: var(--text); background: #fff; outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .cf-input:focus, .cf-select:focus, .cf-textarea:focus {
+            border-color: var(--g-teal);
+            box-shadow: 0 0 0 3px rgba(22,160,133,.12);
+        }
+        .cf-textarea { resize: vertical; min-height: 130px; }
+        .cf-input.err, .cf-select.err, .cf-textarea.err { border-color: #e74c3c; }
+        .cf-err { font-size: 12px; color: #e74c3c; margin-top: 5px; display: none; }
+        .cf-err.show { display: block; }
+
+        .cf-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .btn-submit { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--g-mid); color: #fff; font-weight: 700; font-size: 15px; padding: 14px 40px; border-radius: 50px; border: none; cursor: pointer; width: 100%; transition: background .2s, transform .15s; margin-top: 8px; }
+        .btn-submit:hover:not(:disabled) { background: var(--g-deep); transform: translateY(-2px); }
+        .btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+        /* Success state */
+        .contact-success { display: none; text-align: center; padding: 60px 40px; }
+        .contact-success .success-icon { font-size: 3.5rem; margin-bottom: 16px; }
+        .contact-success h3 { font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+        .contact-success p  { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+        .btn-back { display: inline-flex; align-items: center; gap: 7px; background: var(--g-mid); color: #fff; font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 50px; text-decoration: none; transition: background .2s; }
+        .btn-back:hover { background: var(--g-deep); color: #fff; text-decoration: none; }
+
+        @media (max-width: 767px) { .contact-form-card { padding: 28px 20px; } .cf-row-2 { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-area"><div class="main-header"><div class="header-bottom header-sticky">
+        <div class="container"><div class="row align-items-center">
+            <div class="col-xl-2 col-lg-2 col-md-2"><div class="logo"><a href="index.html"><img src="assets/img/logo/logo.png" alt="Travel Planner"></a></div></div>
+            <div class="col-xl-10 col-lg-10 col-md-10"><div class="main-menu f-right d-none d-lg-block"><nav><ul id="navigation">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="mytrips.html">My Trips</a></li>
+                <li id="nav-auth-item"><a href="login.html">Login / Register</a></li>
+            </ul></nav></div></div>
+            <div class="col-12"><div class="mobile_menu d-block d-lg-none"></div></div>
+        </div></div>
+    </div></div></div>
+</header>
+
+<div class="page-hero">
+    <div class="container">
+        <span class="ph-label"><i class="fas fa-envelope"></i> Support</span>
+        <h1>Contact Us</h1>
+        <p>Have a question, found a bug, or just want to say hi? We'd love to hear from you.</p>
+    </div>
+</div>
+
+<div class="contact-page">
+    <div class="container">
+        <div class="row">
+
+            <!-- Left column: info cards -->
+            <div class="col-lg-4 mb-30">
+
+                <div class="contact-info-card">
+                    <div class="cic-icon green"><i class="fas fa-graduation-cap"></i></div>
+                    <div>
+                        <div class="cic-title">Academic Project</div>
+                        <div class="cic-body">Travel Planner is built by IBU students for the IT 309 Software Engineering course. We read every message.</div>
+                    </div>
+                </div>
+
+                <div class="contact-info-card">
+                    <div class="cic-icon sky"><i class="fas fa-clock"></i></div>
+                    <div>
+                        <div class="cic-title">Response Time</div>
+                        <div class="cic-body">We aim to reply within <strong>1–3 business days</strong>. For urgent issues please mention it in the subject.</div>
+                    </div>
+                </div>
+
+                <div class="contact-info-card">
+                    <div class="cic-icon indigo"><i class="fas fa-bug"></i></div>
+                    <div>
+                        <div class="cic-title">Reporting a Bug</div>
+                        <div class="cic-body">Include your browser, the page you were on, and steps to reproduce. Screenshots are always helpful.</div>
+                    </div>
+                </div>
+
+                <div class="contact-info-card">
+                    <div class="cic-icon amber"><i class="fas fa-university"></i></div>
+                    <div>
+                        <div class="cic-title">International Burch University</div>
+                        <div class="cic-body">Francuske revolucije bb, Ilidža<br>71 210 Sarajevo, Bosnia &amp; Herzegovina</div>
+                    </div>
+                </div>
+
+                <div class="contact-faq-card">
+                    <h4>Check the FAQ first</h4>
+                    <p>Many common questions are already answered there — you might find your answer instantly.</p>
+                    <a href="faq.html" class="btn-faq-link"><i class="fas fa-question-circle"></i> View FAQ</a>
+                </div>
+
+            </div>
+
+            <!-- Right column: form -->
+            <div class="col-lg-8">
+                <div class="contact-form-card">
+
+                    <!-- Form view -->
+                    <div id="formView">
+                        <div class="form-section-title">Send us a message</div>
+                        <div class="form-section-sub">Fill in the form below and we'll get back to you as soon as possible.</div>
+
+                        <div class="cf-row-2">
+                            <div class="cf-group">
+                                <label class="cf-label" for="cf-first">First name <span>*</span></label>
+                                <input class="cf-input" type="text" id="cf-first" placeholder="Your first name">
+                                <div class="cf-err" id="err-first">Please enter your first name.</div>
+                            </div>
+                            <div class="cf-group">
+                                <label class="cf-label" for="cf-last">Last name <span>*</span></label>
+                                <input class="cf-input" type="text" id="cf-last" placeholder="Your last name">
+                                <div class="cf-err" id="err-last">Please enter your last name.</div>
+                            </div>
+                        </div>
+
+                        <div class="cf-group">
+                            <label class="cf-label" for="cf-email">Email address <span>*</span></label>
+                            <input class="cf-input" type="email" id="cf-email" placeholder="you@example.com">
+                            <div class="cf-err" id="err-email">Please enter a valid email address.</div>
+                        </div>
+
+                        <div class="cf-group">
+                            <label class="cf-label" for="cf-topic">Topic <span>*</span></label>
+                            <select class="cf-select" id="cf-topic">
+                                <option value="">— Select a topic —</option>
+                                <option value="bug">Bug Report</option>
+                                <option value="account">Account Issue</option>
+                                <option value="feature">Feature Request</option>
+                                <option value="data">Data / Privacy Request</option>
+                                <option value="feedback">General Feedback</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="cf-err" id="err-topic">Please select a topic.</div>
+                        </div>
+
+                        <div class="cf-group">
+                            <label class="cf-label" for="cf-subject">Subject <span>*</span></label>
+                            <input class="cf-input" type="text" id="cf-subject" placeholder="Brief summary of your message">
+                            <div class="cf-err" id="err-subject">Please enter a subject.</div>
+                        </div>
+
+                        <div class="cf-group">
+                            <label class="cf-label" for="cf-message">Message <span>*</span></label>
+                            <textarea class="cf-textarea" id="cf-message" placeholder="Describe your question or issue in detail…"></textarea>
+                            <div class="cf-err" id="err-message">Please enter your message (at least 20 characters).</div>
+                        </div>
+
+                        <div class="cf-group" style="margin-bottom:0;">
+                            <label class="cf-label" style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
+                                <input type="checkbox" id="cf-privacy" style="margin-top:3px;accent-color:var(--g-teal);width:16px;height:16px;flex-shrink:0;">
+                                <span style="font-weight:500;font-size:13px;color:var(--muted);">I have read and agree to the <a href="privacy.html">Privacy Policy</a>. <span style="color:var(--amber);">*</span></span>
+                            </label>
+                            <div class="cf-err" id="err-privacy">You must agree to the privacy policy to send a message.</div>
+                        </div>
+
+                        <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+                            <i class="fas fa-paper-plane"></i> <span id="submitTxt">Send Message</span>
+                        </button>
+                    </div>
+
+                    <!-- Success view -->
+                    <div class="contact-success" id="successView">
+                        <div class="success-icon">✅</div>
+                        <h3>Message sent!</h3>
+                        <p>Thanks for reaching out. We'll get back to you within 1–3 business days at the email address you provided.</p>
+                        <a href="index.html" class="btn-back"><i class="fas fa-home"></i> Back to Home</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-area footer-padding footer-bg" data-background="assets/img/service/footer_bg.jpg">
+        <div class="container">
+            <div class="row d-flex justify-content-between">
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6"><div class="single-footer-caption mb-50"><div class="footer-logo mb-20"><a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt="Travel Planner"></a></div><div class="footer-tittle"><div class="footer-pera"><p>Your personal trip planning tool. Create itineraries, track budgets, and organise every detail of your journey — all in one place.</p></div></div></div></div>
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5"><div class="single-footer-caption mb-50"><div class="footer-tittle"><h4>Product</h4><ul><li><a href="mytrips.html">My Trips</a></li><li><a href="destinations.html">Destinations</a></li><li><a href="mytrips.html">Budget Tracker</a></li><li><a href="destinations.html">Recommendations</a></li></ul></div></div></div>
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7"><div class="single-footer-caption mb-50"><div class="footer-tittle"><h4>Account</h4><ul><li><a href="login.html">Login</a></li><li><a href="register.html">Register</a></li><li><a href="profile.html">Profile Settings</a></li><li><a href="login.html">Reset Password</a></li></ul></div></div></div>
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7"><div class="single-footer-caption mb-50"><div class="footer-tittle"><h4>Support</h4><ul><li><a href="faq.html">Frequently Asked Questions</a></li><li><a href="terms.html">Terms &amp; Conditions</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="contact.html">Contact Us</a></li></ul></div></div></div>
+            </div>
+            <div class="row pt-padding">
+                <div class="col-xl-7 col-lg-7 col-md-7"><div class="footer-copy-right"><p>Copyright &copy;<script>document.write(new Date().getFullYear())</script> TravelPlanner. All rights reserved. &nbsp;·&nbsp; IT 309 Software Engineering — IBU</p></div></div>
+                <div class="col-xl-5 col-lg-5 col-md-5"><div class="footer-social f-right"><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fas fa-globe"></i></a></div></div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
+<script src="./assets/js/jquery.sticky.js"></script>
+<script src="./assets/js/main.js"></script>
+<script>
+function showErr(id, inputId) {
+    document.getElementById(id).classList.add('show');
+    if (inputId) document.getElementById(inputId).classList.add('err');
+}
+function hideErr(id, inputId) {
+    document.getElementById(id).classList.remove('show');
+    if (inputId) document.getElementById(inputId).classList.remove('err');
+}
+
+/* Pre-fill form if logged in */
+(function() {
+    const user = JSON.parse(localStorage.getItem('tp_user') || '{}');
+    if (user.first_name) document.getElementById('cf-first').value = user.first_name;
+    if (user.last_name)  document.getElementById('cf-last').value  = user.last_name;
+    if (user.email)      document.getElementById('cf-email').value = user.email;
+
+    const token = localStorage.getItem('tp_token');
+    const item  = document.getElementById('nav-auth-item');
+    if (!item || !token) return;
+    const name = user.first_name || user.username;
+    if (!name) return;
+    item.innerHTML = '<a href="profile.html" style="font-weight:700;">Hi, ' + name + '</a>';
+    item.insertAdjacentHTML('afterend', '<li><a href="#" id="navLogoutBtn" style="font-size:13px;opacity:.75;">Logout</a></li>');
+    document.getElementById('navLogoutBtn').addEventListener('click', function(e) {
+        e.preventDefault(); localStorage.removeItem('tp_token'); localStorage.removeItem('tp_user'); window.location.href = 'login.html';
+    });
+})();
+
+function submitForm() {
+    const first   = document.getElementById('cf-first').value.trim();
+    const last    = document.getElementById('cf-last').value.trim();
+    const email   = document.getElementById('cf-email').value.trim();
+    const topic   = document.getElementById('cf-topic').value;
+    const subject = document.getElementById('cf-subject').value.trim();
+    const message = document.getElementById('cf-message').value.trim();
+    const privacy = document.getElementById('cf-privacy').checked;
+
+    let valid = true;
+
+    first   ? hideErr('err-first',   'cf-first')   : (showErr('err-first',   'cf-first'),   valid = false);
+    last    ? hideErr('err-last',    'cf-last')     : (showErr('err-last',    'cf-last'),    valid = false);
+    (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) ? hideErr('err-email', 'cf-email') : (showErr('err-email', 'cf-email'), valid = false);
+    topic   ? hideErr('err-topic',   'cf-topic')   : (showErr('err-topic',   'cf-topic'),   valid = false);
+    subject ? hideErr('err-subject', 'cf-subject') : (showErr('err-subject', 'cf-subject'), valid = false);
+    (message.length >= 20) ? hideErr('err-message', 'cf-message') : (showErr('err-message', 'cf-message'), valid = false);
+    privacy ? hideErr('err-privacy')               : (showErr('err-privacy'),               valid = false);
+
+    if (!valid) return;
+
+    /* Simulate send */
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    document.getElementById('submitTxt').textContent = 'Sending…';
+
+    setTimeout(function() {
+        document.getElementById('formView').style.display    = 'none';
+        document.getElementById('successView').style.display = 'block';
+    }, 1000);
+}
+
+/* Clear error on input */
+['cf-first','cf-last','cf-email','cf-topic','cf-subject','cf-message'].forEach(function(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', function() {
+        this.classList.remove('err');
+        const errId = 'err-' + id.replace('cf-', '');
+        const errEl = document.getElementById(errId);
+        if (errEl) errEl.classList.remove('show');
+    });
+});
+document.getElementById('cf-privacy').addEventListener('change', function() {
+    if (this.checked) document.getElementById('err-privacy').classList.remove('show');
+});
+</script>
+</body>
+</html>
