@@ -1,0 +1,555 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Shared Trip — Travel Planner</title>
+    <meta name="description" content="View a shared travel itinerary.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/flaticon.css">
+    <link rel="stylesheet" href="assets/css/slicknav.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/nice-select.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body, h1,h2,h3,h4,h5,h6,p,a,span,li,div,button,select,textarea,input {
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+        }
+        .header-top { display: none !important; }
+
+        :root {
+            --g-deep:  #1b4332;
+            --g-mid:   #2d6a4f;
+            --g-teal:  #16a085;
+            --g-light: #d8f3dc;
+            --border:  #eeeff2;
+            --muted:   #8a8f9e;
+            --text:    #1a1a1a;
+            --white:   #ffffff;
+            --bg:      #f7f8fa;
+        }
+
+        /* ── Hero ── */
+        .share-hero {
+            background:
+                linear-gradient(135deg, rgba(27,67,50,0.85) 0%, rgba(22,160,133,0.72) 100%),
+                url('assets/img/hero/contact_hero.jpg') center/cover no-repeat;
+            padding: 52px 0 44px;
+            text-align: center;
+        }
+        .share-badge {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: rgba(255,255,255,0.18); color: #fff;
+            font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+            text-transform: uppercase; padding: 5px 16px; border-radius: 50px;
+            margin-bottom: 14px;
+        }
+        .share-hero h1 { font-size: 2.2rem; font-weight: 800; color: #fff; margin: 0 0 8px; line-height: 1.2; }
+        .share-hero .hero-meta { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 14px; }
+        .hero-meta-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: rgba(255,255,255,0.8); }
+        .hero-meta-item i { color: rgba(255,255,255,0.6); font-size: 12px; }
+
+        /* ── Read-only ribbon ── */
+        .readonly-ribbon {
+            background: var(--g-light); border-bottom: 1px solid #b7e4c7;
+            padding: 10px 0; text-align: center;
+        }
+        .readonly-ribbon span {
+            font-size: 12px; font-weight: 700; color: var(--g-deep);
+            display: inline-flex; align-items: center; gap: 7px;
+        }
+
+        /* ── Main content ── */
+        .share-main { background: var(--bg); padding: 48px 0 80px; }
+
+        /* ── Cards ── */
+        .share-card {
+            background: var(--white); border-radius: 18px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 14px rgba(0,0,0,.05);
+            margin-bottom: 28px; overflow: hidden;
+        }
+        .share-card-head {
+            padding: 18px 24px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .share-card-head h3 { font-size: 15px; font-weight: 800; color: var(--text); margin: 0; }
+        .share-card-head i  { color: var(--g-teal); font-size: 16px; }
+        .share-card-body { padding: 20px 24px; }
+
+        /* ── Destinations ── */
+        .dest-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .dest-chip {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 8px 16px; background: var(--g-light);
+            border-radius: 50px; font-size: 13px; font-weight: 600; color: var(--g-deep);
+            border: 1px solid #b7e4c7;
+        }
+        .dest-chip i { font-size: 11px; color: var(--g-teal); }
+        .no-items { font-size: 13px; color: var(--muted); font-style: italic; }
+
+        /* ── Itinerary ── */
+        .itin-day-group { margin-bottom: 22px; }
+        .itin-day-label {
+            font-size: 11px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: .09em; color: var(--g-mid); margin-bottom: 10px;
+            padding: 0 4px; display: flex; align-items: center; gap: 8px;
+        }
+        .itin-day-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .itin-activity {
+            display: flex; align-items: flex-start; gap: 14px;
+            padding: 14px 16px; background: var(--bg);
+            border-radius: 12px; margin-bottom: 8px;
+            border: 1px solid var(--border);
+        }
+        .itin-time { font-size: 12px; font-weight: 700; color: var(--g-teal); width: 48px; flex-shrink: 0; padding-top: 2px; }
+        .itin-dot  { width: 10px; height: 10px; border-radius: 50%; background: var(--g-teal); flex-shrink: 0; margin-top: 5px; }
+        .itin-content { flex: 1; min-width: 0; }
+        .itin-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+        .itin-desc  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+        /* ── Expired / invalid ── */
+        .error-state { text-align: center; padding: 80px 20px; }
+        .error-icon  { font-size: 3.5rem; margin-bottom: 18px; }
+        .error-state h3 { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 10px; }
+        .error-state p  { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+        .btn-home {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 13px 32px; background: var(--g-mid); color: #fff;
+            border: none; border-radius: 50px; font-size: 14px; font-weight: 700;
+            cursor: pointer; text-decoration: none;
+            transition: background .2s, transform .15s;
+        }
+        .btn-home:hover { background: var(--g-deep); transform: translateY(-2px); color: #fff; }
+
+        /* ── Loading ── */
+        .spinner-wrap { text-align: center; padding: 80px 0; }
+        .spinner { width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: var(--g-teal); border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto 14px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Expiry notice ── */
+        .expiry-notice {
+            background: #fff8e1; border: 1px solid #ffe082; border-radius: 10px;
+            padding: 10px 16px; font-size: 12px; font-weight: 600; color: #7a5c00;
+            display: flex; align-items: center; gap: 8px; margin-bottom: 24px;
+        }
+
+        /* ── CTA ── */
+        .share-cta {
+            background: linear-gradient(135deg, var(--g-deep) 0%, var(--g-teal) 100%);
+            border-radius: 18px; padding: 32px 28px; text-align: center; color: #fff;
+            margin-bottom: 28px;
+        }
+        .share-cta h4 { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+        .share-cta p  { font-size: 13px; color: rgba(255,255,255,.7); margin-bottom: 20px; }
+        .btn-cta {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 28px; background: #fff; color: var(--g-deep);
+            border-radius: 50px; font-size: 13px; font-weight: 700;
+            text-decoration: none; transition: transform .15s, box-shadow .15s;
+        }
+        .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.15); color: var(--g-deep); }
+
+        @media (max-width: 768px) {
+            .share-hero h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="preloader-circle"></div>
+            <div class="preloader-img pere-text"><img src="assets/img/logo/logo.png" alt=""></div>
+        </div>
+    </div>
+</div>
+
+<header>
+    <div class="header-area">
+        <div class="main-header">
+            <div class="header-bottom header-sticky">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-2 col-lg-2 col-md-1">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/logo.png" alt="Travel Planner"></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-10 col-lg-10 col-md-10">
+                            <div class="main-menu f-right d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a href="destinations.html">Destinations</a></li>
+                                        <li><a href="mytrips.html">My Trips</a></li>
+                                        <li id="nav-auth-item"><a href="login.html">Login / Register</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Hero — populated by JS -->
+<div id="heroWrap" style="display:none">
+    <div class="share-hero">
+        <div class="container">
+            <span class="share-badge"><i class="fas fa-share-alt"></i> Shared Trip</span>
+            <h1 id="heroTripName"></h1>
+            <div class="hero-meta">
+                <div class="hero-meta-item"><i class="fas fa-calendar-alt"></i> <span id="heroDateRange"></span></div>
+                <div class="hero-meta-item"><i class="fas fa-map-marker-alt"></i> <span id="heroDestCount"></span></div>
+                <div class="hero-meta-item"><i class="fas fa-list-ul"></i> <span id="heroActCount"></span></div>
+            </div>
+        </div>
+    </div>
+    <div class="readonly-ribbon">
+        <span><i class="fas fa-eye"></i> Read-only view — budget and expenses are not shown</span>
+    </div>
+</div>
+
+<main>
+    <!-- Loading -->
+    <div class="share-main" id="loadingState">
+        <div class="container">
+            <div class="spinner-wrap">
+                <div class="spinner"></div>
+                <p style="color:var(--muted);font-size:13px">Loading shared trip…</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error / expired -->
+    <div class="share-main" id="errorState" style="display:none">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="share-card">
+                        <div class="share-card-body error-state">
+                            <div class="error-icon">🔗</div>
+                            <h3 id="errorTitle">Link Expired or Invalid</h3>
+                            <p id="errorMsg">This shared trip link is no longer valid. It may have expired or been revoked by the owner.</p>
+                            <a href="index.html" class="btn-home"><i class="fas fa-home"></i> Go to Homepage</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trip content -->
+    <div class="share-main" id="tripContent" style="display:none">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+
+                    <!-- Expiry notice -->
+                    <div class="expiry-notice" id="expiryNotice">
+                        <i class="fas fa-clock"></i>
+                        <span id="expiryText"></span>
+                    </div>
+
+                    <!-- Destinations -->
+                    <div class="share-card">
+                        <div class="share-card-head">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h3>Destinations</h3>
+                        </div>
+                        <div class="share-card-body">
+                            <div id="destWrap" class="dest-chips"></div>
+                        </div>
+                    </div>
+
+                    <!-- Itinerary -->
+                    <div class="share-card">
+                        <div class="share-card-head">
+                            <i class="fas fa-calendar-check"></i>
+                            <h3>Itinerary</h3>
+                        </div>
+                        <div class="share-card-body">
+                            <div id="itinWrap"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-4">
+
+                    <!-- CTA -->
+                    <div class="share-cta">
+                        <h4>Plan your own trip ✈️</h4>
+                        <p>Create personalised itineraries, track budgets, and explore destinations.</p>
+                        <a href="login.html" class="btn-cta"><i class="fas fa-user-plus"></i> Get Started Free</a>
+                    </div>
+
+                    <!-- Trip summary card -->
+                    <div class="share-card">
+                        <div class="share-card-head">
+                            <i class="fas fa-info-circle"></i>
+                            <h3>Trip Summary</h3>
+                        </div>
+                        <div class="share-card-body">
+                            <div style="display:flex;flex-direction:column;gap:12px" id="summaryWrap"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-area footer-padding footer-bg" data-background="assets/img/service/footer_bg.jpg">
+        <div class="container">
+            <div class="row d-flex justify-content-between">
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-logo mb-20">
+                            <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt="Travel Planner"></a>
+                        </div>
+                        <div class="footer-tittle">
+                            <div class="footer-pera"><p>Your personal trip planning tool.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-padding">
+                <div class="col-xl-7 col-lg-7 col-md-7">
+                    <div class="footer-copy-right">
+                        <p>Copyright &copy;<script>document.write(new Date().getFullYear())</script> TravelPlanner. All rights reserved. &nbsp;·&nbsp; IT 309 Software Engineering — IBU</p>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-5">
+                    <div class="footer-social f-right">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="./assets/js/popper.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
+<script src="./assets/js/jquery.slicknav.min.js"></script>
+<script src="./assets/js/owl.carousel.min.js"></script>
+<script src="./assets/js/slick.min.js"></script>
+<script src="./assets/js/wow.min.js"></script>
+<script src="./assets/js/animated.headline.js"></script>
+<script src="./assets/js/jquery.magnific-popup.js"></script>
+<script src="./assets/js/jquery.scrollUp.min.js"></script>
+<script src="./assets/js/jquery.nice-select.min.js"></script>
+<script src="./assets/js/jquery.sticky.js"></script>
+<script src="./assets/js/plugins.js"></script>
+<script src="./assets/js/main.js"></script>
+
+<script>
+const API = 'http://localhost:8080/api';
+
+/* ══════════════════════════════════════════════════
+   INIT — single DOMContentLoaded (fetch + auth navbar)
+══════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', async function () {
+    /* ── Auth-aware navbar ── */
+    const storedToken = localStorage.getItem('tp_token');
+    const user        = JSON.parse(localStorage.getItem('tp_user') || '{}');
+    const displayName = user.first_name || user.username || '';
+    if (storedToken && displayName) {
+        document.querySelectorAll('#nav-auth-item').forEach(function (item) {
+            item.innerHTML = '<a href="profile.html" style="font-weight:700;">Hi, ' + displayName + '</a>';
+        });
+        const desktopItem = document.querySelector('#navigation #nav-auth-item');
+        if (desktopItem && !document.getElementById('navLogoutBtn')) {
+            desktopItem.insertAdjacentHTML('afterend',
+                '<li><a href="#" id="navLogoutBtn" style="font-size:13px;opacity:.75;">Logout</a></li>');
+            document.getElementById('navLogoutBtn').addEventListener('click', function (e) {
+                e.preventDefault();
+                localStorage.removeItem('tp_token');
+                localStorage.removeItem('tp_user');
+                window.location.href = 'login.html';
+            });
+        }
+    }
+
+    /* ── Fetch and render shared trip ── */
+    const token = new URLSearchParams(window.location.search).get('token');
+
+    if (!token) {
+        showError('No Share Token', 'No share token was provided in the URL.');
+        return;
+    }
+
+    try {
+        const res  = await fetch(`${API}/share/${token}`);
+        const data = await res.json();
+
+        if (!res.ok) {
+            showError('Link Expired or Invalid', data.message || 'This share link is no longer valid.');
+            return;
+        }
+
+        renderTrip(data.trip, data.expires_at);
+
+    } catch (_) {
+        showError('Could Not Load Trip', 'Cannot reach the server. Please try again later.');
+    }
+});
+
+/* ══════════════════════════════════════════════════
+   RENDER
+══════════════════════════════════════════════════ */
+function renderTrip(trip, expiresAt) {
+    /* Hero */
+    document.getElementById('heroTripName').textContent  = trip.name;
+    document.getElementById('heroDateRange').textContent = `${fmtDate(trip.start_date)} → ${fmtDate(trip.end_date)}`;
+    document.getElementById('heroDestCount').textContent = `${trip.destinations.length} destination${trip.destinations.length !== 1 ? 's' : ''}`;
+    document.getElementById('heroActCount').textContent  = `${trip.itinerary.length} activit${trip.itinerary.length !== 1 ? 'ies' : 'y'}`;
+    document.getElementById('heroWrap').style.display    = '';
+
+    /* Expiry notice */
+    const expDate  = new Date(expiresAt);
+    const daysLeft = Math.ceil((expDate - Date.now()) / 86400000);
+    const expiryNotice = document.getElementById('expiryNotice');
+    document.getElementById('expiryText').textContent =
+        daysLeft <= 7
+            ? `This link expires on ${fmtDate(expiresAt)} — only ${daysLeft} day${daysLeft !== 1 ? 's' : ''} left.`
+            : `This link is valid until ${fmtDate(expiresAt)}.`;
+    /* Only use amber warning styling when close to expiry */
+    if (daysLeft > 7) {
+        expiryNotice.style.background  = '#f0faf4';
+        expiryNotice.style.borderColor = '#b7e4c7';
+        expiryNotice.style.color       = '#2d6a4f';
+    }
+
+    /* Summary sidebar */
+    document.getElementById('summaryWrap').innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+            <span style="color:var(--muted);font-weight:600">Trip Name</span>
+            <span style="font-weight:700;color:var(--text)">${esc(trip.name)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+            <span style="color:var(--muted);font-weight:600">Start Date</span>
+            <span style="font-weight:700;color:var(--text)">${fmtDate(trip.start_date)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+            <span style="color:var(--muted);font-weight:600">End Date</span>
+            <span style="font-weight:700;color:var(--text)">${fmtDate(trip.end_date)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+            <span style="color:var(--muted);font-weight:600">Duration</span>
+            <span style="font-weight:700;color:var(--text)">${tripDays(trip)} day${tripDays(trip) !== 1 ? 's' : ''}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+            <span style="color:var(--muted);font-weight:600">Destinations</span>
+            <span style="font-weight:700;color:var(--text)">${trip.destinations.length}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+            <span style="color:var(--muted);font-weight:600">Activities</span>
+            <span style="font-weight:700;color:var(--text)">${trip.itinerary.length}</span>
+        </div>`;
+
+    /* Destinations */
+    const destWrap = document.getElementById('destWrap');
+    if (trip.destinations.length === 0) {
+        destWrap.innerHTML = '<p class="no-items">No destinations added to this trip.</p>';
+    } else {
+        destWrap.innerHTML = trip.destinations.map(d =>
+            `<div class="dest-chip"><i class="fas fa-map-marker-alt"></i>${esc(d.name)}${d.country ? ', ' + esc(d.country) : ''}</div>`
+        ).join('');
+    }
+
+    /* Itinerary */
+    const itinWrap = document.getElementById('itinWrap');
+    if (trip.itinerary.length === 0) {
+        itinWrap.innerHTML = '<p class="no-items">No activities planned yet.</p>';
+    } else {
+        /* Group by date */
+        const grouped = {};
+        trip.itinerary.forEach(act => {
+            const key = act.activity_date;
+            if (!grouped[key]) grouped[key] = [];
+            grouped[key].push(act);
+        });
+
+        itinWrap.innerHTML = Object.entries(grouped).map(([date, acts]) => `
+            <div class="itin-day-group">
+                <div class="itin-day-label">${fmtDate(date)}</div>
+                ${acts.map(act => `
+                    <div class="itin-activity">
+                        <div class="itin-time">${act.activity_time ? act.activity_time.slice(0,5) : '—'}</div>
+                        <div class="itin-dot"></div>
+                        <div class="itin-content">
+                            <div class="itin-title">${esc(act.title)}</div>
+                            ${act.description ? `<div class="itin-desc">${esc(act.description)}</div>` : ''}
+                        </div>
+                    </div>`).join('')}
+            </div>`).join('');
+    }
+
+    /* Show content */
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('tripContent').style.display  = '';
+}
+
+function showError(title, msg) {
+    document.getElementById('errorTitle').textContent = title;
+    document.getElementById('errorMsg').textContent   = msg;
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('errorState').style.display   = '';
+}
+
+/* ══════════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════════ */
+function fmtDate(d) {
+    if (!d) return '';
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    /* Parse date-only strings directly to avoid UTC midnight shifting the day back */
+    const s = String(d).slice(0, 10);
+    const [yr, mo, dy] = s.split('-').map(Number);
+    if (yr && mo && dy) return `${dy} ${months[mo - 1]} ${yr}`;
+    const dt = new Date(d);
+    return `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}`;
+}
+
+function tripDays(trip) {
+    const diff = (new Date(trip.end_date) - new Date(trip.start_date)) / 86400000;
+    return Math.max(1, Math.round(diff) + 1);
+}
+
+function esc(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+
+</script>
+</body>
+</html>

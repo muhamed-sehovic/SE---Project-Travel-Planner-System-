@@ -277,6 +277,7 @@
             font-size: 15px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             transition: transform 0.2s;
+            z-index: 10;
         }
         .modal-x:hover { transform: scale(1.1); }
         .modal-fav-btn {
@@ -287,6 +288,7 @@
             border: none; border-radius: 50%;
             font-size: 16px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
+            z-index: 10;
         }
 
         .modal-content-body { padding: 26px; }
@@ -381,6 +383,11 @@
         }
         .btn-post-review:hover { background: #2d6a4f; }
 
+        @keyframes skeletonPulse {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.45; }
+        }
+
         .toast-wrap { position: fixed; bottom: 24px; right: 24px; z-index: 10000; display: flex; flex-direction: column; gap: 8px; }
         .toast-msg {
             background: #1a1a1a;
@@ -465,7 +472,7 @@
                                         <li><a href="index.html">Home</a></li>
                                         <li><a href="destinations.html">Destinations</a></li>
                                         <li><a href="mytrips.html" class="active">My Trips</a></li>
-                                        <li><a href="login.html">Login / Register</a></li>
+                                        <li id="nav-auth-item"><a href="login.html">Login / Register</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -519,6 +526,10 @@
                         <i class="fas fa-star"></i> Favourites
                         <span class="tab-badge" id="badge-favs">0</span>
                     </button>
+                    <button class="tab-btn" id="tab-recs" onclick="switchTab('recs')">
+                        <i class="fas fa-magic"></i> For You
+                        <span class="tab-badge" id="badge-recs">0</span>
+                    </button>
                 </div>
 
                 <div class="divider-v"></div>
@@ -546,7 +557,7 @@
     </div>
 
     <!-- Destinations grid -->
-    <div class="favourite-place place-padding">
+    <div class="favourite-place place-padding" id="allDestsSection">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -560,6 +571,27 @@
         </div>
     </div>
 
+
+    <!-- Recommendations section (shown only on For You tab) -->
+    <div class="favourite-place place-padding" id="recsSection" style="display:none">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-tittle text-center">
+                        <span>FOR YOU</span>
+                        <h2>Recommended Destinations</h2>
+                        <p style="color:#8a8f9e;font-size:14px;margin-top:6px" id="recsSubtitle">Based on your favourites and travel history</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="recsGrid">
+                <div class="col-12 text-center" style="padding:60px 0;color:#8a8f9e">
+                    <div class="spinner" style="width:36px;height:36px;border:3px solid #eee;border-top-color:#16a085;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px"></div>
+                    <p style="font-size:13px">Loading recommendations…</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="pagination-area pb-100 text-center" id="paginationWrap">
         <div class="container">
             <div class="row">
@@ -597,10 +629,10 @@
                         <div class="footer-tittle">
                             <h4>Product</h4>
                             <ul>
-                                <li><a href="#">My Trips</a></li>
-                                <li><a href="#">Destinations</a></li>
-                                <li><a href="#">Budget Tracker</a></li>
-                                <li><a href="#">Recommendations</a></li>
+                                <li><a href="mytrips.html">My Trips</a></li>
+                                <li><a href="destinations.html">Destinations</a></li>
+                                <li><a href="mytrips.html">Budget Tracker</a></li>
+                                <li><a href="destinations.html">Recommendations</a></li>
                             </ul>
                         </div>
                     </div>
@@ -610,10 +642,10 @@
                         <div class="footer-tittle">
                             <h4>Account</h4>
                             <ul>
-                                <li><a href="#">Login</a></li>
-                                <li><a href="#">Register</a></li>
-                                <li><a href="#">Profile Settings</a></li>
-                                <li><a href="#">Reset Password</a></li>
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="login.html">Register</a></li>
+                                <li><a href="profile.html">Profile Settings</a></li>
+                                <li><a href="login.html">Reset Password</a></li>
                             </ul>
                         </div>
                     </div>
@@ -623,10 +655,10 @@
                         <div class="footer-tittle">
                             <h4>Support</h4>
                             <ul>
-                                <li><a href="#">Frequently Asked Questions</a></li>
-                                <li><a href="#">Terms &amp; Conditions</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="faq.html">Frequently Asked Questions</a></li>
+                                <li><a href="terms.html">Terms &amp; Conditions</a></li>
+                                <li><a href="privacy.html">Privacy Policy</a></li>
+                                <li><a href="contact.html">Contact Us</a></li>
                             </ul>
                         </div>
                     </div>
@@ -677,10 +709,7 @@
             <div class="trip-sel-block">
                 <div class="modal-section-lbl">Add to a Trip</div>
                 <select class="trip-dropdown" id="tripDropdown">
-                    <option value="">— Select a trip —</option>
-                    <option value="japan">🇯🇵 Japan Trip 2025</option>
-                    <option value="italy">🇮🇹 Italy Road Trip</option>
-                    <option value="lisbon">🇵🇹 Lisbon Weekend</option>
+                    <option value="">— Loading trips… —</option>
                 </select>
                 <button class="btn-add-trip" onclick="addToTrip()">
                     <i class="fas fa-plus"></i> Add Destination to Trip
@@ -739,34 +768,96 @@
 
 <script>
 /* ═══════════════════════════════════
-   DATA
+   DATA  —  loaded from API
 ═══════════════════════════════════ */
-const DESTINATIONS = [
-    { id:1,  name:'Tokyo',            country:'Japan',           flag:'🇯🇵', emoji:'🗼', category:'city',      bg:'linear-gradient(135deg,#ffecd2,#fcb69f)', rating:4.9, reviews:[], desc:'An electric metropolis where ancient temples meet futuristic neon skylines. From Shibuya crossing to serene Senso-ji, Tokyo is endlessly captivating.',   tags:['Megacity','Food','Culture'],          days:10 },
-    { id:2,  name:'Santorini',         country:'Greece',          flag:'🇬🇷', emoji:'🏛️', category:'romance',   bg:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', rating:4.8, reviews:[], desc:'Iconic whitewashed villages perched above the volcanic caldera with breathtaking sunsets and the clearest blue sea in the world.',                       tags:['Sunset','Islands','Romance'],         days:7  },
-    { id:3,  name:'Bali',              country:'Indonesia',       flag:'🇮🇩', emoji:'🌺', category:'beach',     bg:'linear-gradient(135deg,#d4fc79,#96e6a1)', rating:4.7, reviews:[], desc:'Lush rice terraces, spiritual temples, and stunning beaches make Bali a dream destination for relaxation and adventure alike.',                            tags:['Beaches','Temples','Wellness'],       days:9  },
-    { id:4,  name:'Paris',             country:'France',          flag:'🇫🇷', emoji:'🗼', category:'romance',   bg:'linear-gradient(135deg,#ffecd2,#fcb69f)', rating:4.8, reviews:[], desc:'The city of light dazzles with world-class art, iconic architecture, and a culinary scene that has no equal. Romance is around every corner.',             tags:['Art','Cuisine','Fashion'],            days:5  },
-    { id:5,  name:'Machu Picchu',      country:'Peru',            flag:'🇵🇪', emoji:'🏔️', category:'adventure', bg:'linear-gradient(135deg,#e0c3fc,#8ec5fc)', rating:4.9, reviews:[], desc:'The legendary Inca citadel sits in a cloud forest high in the Andes — a bucket-list trek through history and breathtaking mountain scenery.',             tags:['Inca','Hiking','UNESCO'],             days:4  },
-    { id:6,  name:'Kyoto',             country:'Japan',           flag:'🇯🇵', emoji:'⛩️', category:'culture',   bg:'linear-gradient(135deg,#fda085,#f6d365)', rating:4.9, reviews:[], desc:"Traditional geisha districts, thousands of vermillion torii gates, and seasonal cherry blossoms make Kyoto Japan's cultural heart.",                       tags:['Temples','Geisha','Gardens'],         days:6  },
-    { id:7,  name:'New York City',     country:'USA',             flag:'🇺🇸', emoji:'🗽', category:'city',      bg:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', rating:4.7, reviews:[], desc:'The city that never sleeps pulses with energy across five boroughs — world-class museums, Central Park, and a skyline unlike any other.',                  tags:['Skyline','Culture','Shopping'],       days:7  },
-    { id:8,  name:'Maldives',          country:'Maldives',        flag:'🇲🇻', emoji:'🐠', category:'beach',     bg:'linear-gradient(135deg,#0093E9,#80D0C7)', rating:4.9, reviews:[], desc:'Overwater bungalows, crystal-clear turquoise lagoons, and vibrant coral reefs make the Maldives the ultimate tropical escape.',                           tags:['Overwater','Diving','Luxury'],        days:7  },
-    { id:9,  name:'Cape Town',         country:'South Africa',    flag:'🇿🇦', emoji:'🏔️', category:'nature',    bg:'linear-gradient(135deg,#f093fb,#f5576c)', rating:4.8, reviews:[], desc:'Where two oceans meet, Table Mountain watches over stunning beaches, vibrant neighbourhoods, and incredible wildlife.',                                    tags:['Table Mountain','Beaches','Wildlife'], days:8  },
-    { id:10, name:'Amsterdam',         country:'Netherlands',     flag:'🇳🇱', emoji:'🚲', category:'city',      bg:'linear-gradient(135deg,#ffecd2,#fcb69f)', rating:4.6, reviews:[], desc:"A network of canals, golden-age townhouses, world-class museums, and a free-spirited culture define one of Europe's most charming capitals.",             tags:['Canals','Museums','Cycling'],         days:4  },
-    { id:11, name:'Patagonia',         country:'Argentina/Chile', flag:'🌎', emoji:'🏔️', category:'adventure', bg:'linear-gradient(135deg,#43e97b,#38f9d7)', rating:4.8, reviews:[], desc:'Dramatic granite spires, ancient glaciers, and windswept steppes at the end of the world — the ultimate destination for trekkers and adventurers.',       tags:['Glaciers','Trekking','Wild'],         days:12 },
-    { id:12, name:'Amalfi Coast',      country:'Italy',           flag:'🇮🇹', emoji:'🍋', category:'romance',   bg:'linear-gradient(135deg,#fda085,#f6d365)', rating:4.8, reviews:[], desc:'Pastel-painted villages cling to dramatic cliffs above a shimmering blue sea. Fresh limoncello, Italian cuisine, and endless beauty.',                   tags:['Cliffs','Cuisine','Coastline'],       days:6  },
-    { id:13, name:'Banff',             country:'Canada',          flag:'🇨🇦', emoji:'🦌', category:'nature',    bg:'linear-gradient(135deg,#96fbc4,#f9f586)', rating:4.9, reviews:[], desc:"Turquoise glacial lakes, snow-capped Rocky Mountain peaks, and abundant wildlife within one of the world's most scenic national parks.",                  tags:['Lakes','Mountains','Skiing'],         days:5  },
-    { id:14, name:'Dubrovnik',         country:'Croatia',         flag:'🇭🇷', emoji:'🏰', category:'culture',   bg:'linear-gradient(135deg,#0093E9,#80D0C7)', rating:4.7, reviews:[], desc:'The "Pearl of the Adriatic" enchants visitors with its intact medieval walls, terracotta rooftops, and dazzling coastal views.',                         tags:['Walls','Adriatic','History'],         days:5  },
-    { id:15, name:'Serengeti',         country:'Tanzania',        flag:'🇹🇿', emoji:'🦁', category:'nature',    bg:'linear-gradient(135deg,#f6d365,#fda085)', rating:4.9, reviews:[], desc:'Witness the greatest wildlife spectacle on Earth — millions of wildebeest migrating across vast golden savannah in a timeless, humbling journey.',        tags:['Safari','Migration','Wildlife'],      days:7  },
-    { id:16, name:'Lisbon',            country:'Portugal',        flag:'🇵🇹', emoji:'🛤️', category:'city',      bg:'linear-gradient(135deg,#e0c3fc,#8ec5fc)', rating:4.7, reviews:[], desc:"Cobblestone hills, pastel trams, soulful fado music, and the world's finest custard tarts. Lisbon is Europe's most charismatic capital.",               tags:['Trams','Fado','Pastries'],            days:4  },
-    { id:17, name:'Queenstown',        country:'New Zealand',     flag:'🇳🇿', emoji:'🎿', category:'adventure', bg:'linear-gradient(135deg,#43e97b,#38f9d7)', rating:4.8, reviews:[], desc:'The adventure capital of the world offers bungee jumping, skydiving, and skiing framed by jaw-dropping fjordland scenery.',                              tags:['Bungee','Skiing','Fjords'],           days:6  },
-    { id:18, name:'Petra',             country:'Jordan',          flag:'🇯🇴', emoji:'🏺', category:'culture',   bg:'linear-gradient(135deg,#ffecd2,#fcb69f)', rating:4.9, reviews:[], desc:"The rose-red city carved into sandstone cliffs by the Nabataeans over 2,000 years ago remains one of humanity's greatest wonders.",                    tags:['Ancient','Carved Rock','UNESCO'],     days:3  },
-    { id:19, name:'Phuket',            country:'Thailand',        flag:'🇹🇭', emoji:'🌊', category:'beach',     bg:'linear-gradient(135deg,#96fbc4,#f9f586)', rating:4.5, reviews:[], desc:'Long sandy beaches, emerald waters, vibrant nightlife, and exceptional street food make Phuket one of Asia\'s most beloved island getaways.',            tags:['Islands','Snorkelling','Nightlife'],  days:7  },
-    { id:20, name:'Yosemite',          country:'USA',             flag:'🇺🇸', emoji:'🌲', category:'nature',    bg:'linear-gradient(135deg,#d4fc79,#96e6a1)', rating:4.8, reviews:[], desc:"Towering granite cliffs, ancient sequoia groves, and roaring waterfalls in one of America's most iconic national parks.",                               tags:['Cliffs','Waterfalls','Camping'],      days:4  },
-    { id:21, name:'Barcelona',         country:'Spain',           flag:'🇪🇸', emoji:'🎨', category:'culture',   bg:'linear-gradient(135deg,#f093fb,#f5576c)', rating:4.8, reviews:[], desc:"Gaudí's fantastical architecture, sunlit boulevards, world-class food markets, and a beach-side location make Barcelona uniquely irresistible.",         tags:['Gaudí','Tapas','Architecture'],       days:5  },
-    { id:22, name:'Matterhorn',        country:'Switzerland',     flag:'🇨🇭', emoji:'⛰️', category:'adventure', bg:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', rating:4.9, reviews:[], desc:"Europe's most iconic pyramid-shaped peak draws mountaineers, skiers, and photographers from around the world to the village of Zermatt.",               tags:['Skiing','Climbing','Alps'],           days:5  },
-    { id:23, name:'Angkor Wat',        country:'Cambodia',        flag:'🇰🇭', emoji:'🛕', category:'culture',   bg:'linear-gradient(135deg,#fda085,#f6d365)', rating:4.8, reviews:[], desc:"The world's largest religious monument emerges from the jungle at sunrise in one of travel's most magical and humbling experiences.",                   tags:['Temples','UNESCO','History'],         days:4  },
-    { id:24, name:'Great Barrier Reef',country:'Australia',       flag:'🇦🇺', emoji:'🐚', category:'beach',     bg:'linear-gradient(135deg,#0093E9,#80D0C7)', rating:4.9, reviews:[], desc:"The planet's largest coral ecosystem stretches over 2,300 km off Queensland. A diver's paradise teeming with unimaginable marine life.",               tags:['Diving','Coral','UNESCO'],            days:7  },
-];
+let DESTINATIONS = [];   // populated by loadDestinations()
+
+/**
+ * Fetch all destinations from the backend.
+ * Expected response shape (array):
+ * [{ id, name, country, flag, emoji, category, bg, rating, reviews, desc, tags, days }, …]
+ *
+ * The backend should return `reviews` as an array of
+ * { author, rating, comment, date } objects, or an empty array.
+ */
+async function loadDestinations() {
+    const grid = document.getElementById('destGrid');
+
+    /* ── loading skeleton ── */
+    grid.innerHTML = Array.from({length: 6}).map(() => `
+        <div class="col-xl-4 col-lg-4 col-md-6">
+            <div class="single-place mb-30" style="pointer-events:none">
+                <div class="place-img">
+                    <div class="place-img-placeholder" style="background:#f0f1f3;animation:skeletonPulse 1.4s ease-in-out infinite"></div>
+                </div>
+                <div class="place-cap" style="padding:14px 16px 0">
+                    <div style="height:13px;border-radius:6px;background:#f0f1f3;width:55%;margin-bottom:10px;animation:skeletonPulse 1.4s ease-in-out infinite"></div>
+                    <div style="height:17px;border-radius:6px;background:#f0f1f3;width:80%;margin-bottom:8px;animation:skeletonPulse 1.4s ease-in-out infinite"></div>
+                    <div style="height:12px;border-radius:6px;background:#f0f1f3;width:45%;animation:skeletonPulse 1.4s ease-in-out infinite"></div>
+                </div>
+                <div class="card-actions" style="padding:14px 16px 16px">
+                    <div style="flex:1;height:34px;border-radius:8px;background:#f0f1f3;animation:skeletonPulse 1.4s ease-in-out infinite"></div>
+                    <div style="flex:1;height:34px;border-radius:8px;background:#f0f1f3;margin-left:8px;animation:skeletonPulse 1.4s ease-in-out infinite"></div>
+                </div>
+            </div>
+        </div>`).join('');
+
+    try {
+        const token = localStorage.getItem('tp_token');
+        const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+        const res = await fetch('http://localhost:8080/api/destinations', { headers });
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const data = await res.json();
+
+        /* Normalise: ensure every destination has safe array fields and fallbacks */
+        const rawList = (Array.isArray(data) ? data : (data.destinations ?? [])).map(d => ({
+            ...d,
+            reviews:      Array.isArray(d.reviews) ? d.reviews : [],
+            tags:         Array.isArray(d.tags)    ? d.tags    : [],
+            flag:         d.flag    ?? '🌍',
+            emoji:        d.emoji   ?? '📍',
+            bg:           d.bg      ?? 'linear-gradient(135deg,#2d6a4f,#1b4332)',
+            days:         d.days    ?? 1,
+            desc:         d.desc    ?? '',
+            rating:       d.rating  ?? 0,
+            review_count: d.review_count ?? 0,
+            avg_rating:   d.avg_rating   ?? 0,
+        }));
+
+        /* Fetch review summary for every destination in parallel */
+        const hdr2 = token ? { 'Authorization': `Bearer ${token}` } : {};
+        await Promise.all(rawList.map(async d => {
+            try {
+                const r = await fetch(`http://localhost:8080/api/destinations/${d.id}/reviews`, { headers: hdr2 });
+                if (r.ok) {
+                    const rv = await r.json();
+                    const rvList = rv.reviews || [];
+                    d.review_count = rv.review_count ?? rv.count ?? rvList.length;
+                    d.avg_rating   = rv.average_rating ?? rv.avg_rating ?? 0;
+                    if (rvList.length) d.reviews = rvList;
+                }
+            } catch (_) { /* leave defaults */ }
+        }));
+
+        DESTINATIONS = rawList;
+
+    } catch (err) {
+        console.error('Could not load destinations:', err);
+        grid.innerHTML = `
+            <div class="col-12">
+                <div class="dest-empty">
+                    <div class="dest-empty-icon">⚠️</div>
+                    <h4>Could not load destinations</h4>
+                    <p>Please check your connection and <a href="" style="color:#16a085;font-weight:700;">try again</a>.</p>
+                </div>
+            </div>`;
+        return;   /* stop — don't call renderGrid on empty data */
+    }
+
+    renderGrid();
+}
 
 /* ═══════════════════════════════════
    STATE
@@ -780,13 +871,20 @@ let sortMode      = 'default';
 let currentPage   = 1;
 let openId        = null;
 let pickedStars   = 0;
+let userTrips     = [];   // cached once on load
+let RECOMMENDATIONS = [];   // cached recommendations from backend
+let recsLoaded     = false; // fetch only once per session
 
 /* ═══════════════════════════════════
    HELPERS
 ═══════════════════════════════════ */
 function avgRating(d) {
-    if (!d.reviews.length) return d.rating;
+    if (d.avg_rating) return d.avg_rating;
+    if (!d.reviews.length) return d.rating ?? 0;
     return +(d.reviews.reduce((s,r) => s+r.rating, 0) / d.reviews.length).toFixed(1);
+}
+function reviewCount(d) {
+    return d.review_count ?? d.reviews.length;
 }
 function starsStr(n) {
     return '★'.repeat(Math.round(n)) + '☆'.repeat(5-Math.round(n));
@@ -798,10 +896,10 @@ function getFiltered() {
     if (activeCat !== 'all')  list = list.filter(d => d.category === activeCat);
     if (searchQuery) {
         const q = searchQuery.toLowerCase();
-        list = list.filter(d => d.name.toLowerCase().includes(q) || d.country.toLowerCase().includes(q) || d.tags.some(t => t.toLowerCase().includes(q)));
+        list = list.filter(d => d.name.toLowerCase().includes(q) || d.country.toLowerCase().includes(q) || (d.tags ?? []).some(t => t.toLowerCase().includes(q)));
     }
     if (sortMode === 'rating')  list.sort((a,b) => avgRating(b) - avgRating(a));
-    if (sortMode === 'reviews') list.sort((a,b) => b.reviews.length - a.reviews.length);
+    if (sortMode === 'reviews') list.sort((a,b) => reviewCount(b) - reviewCount(a));
     if (sortMode === 'name')    list.sort((a,b) => a.name.localeCompare(b.name));
     return list;
 }
@@ -820,6 +918,7 @@ function renderGrid() {
     document.getElementById('results-count').textContent = total;
     document.getElementById('badge-all').textContent  = DESTINATIONS.length;
     document.getElementById('badge-favs').textContent = favourites.size;
+    document.getElementById('badge-recs').textContent = RECOMMENDATIONS.length;
 
     // section label
     const spanEl = document.getElementById('section-span');
@@ -853,7 +952,7 @@ function renderGrid() {
             <div class="single-place mb-30" onclick="openDetail(${d.id})">
                 <div class="place-img">
                     <div class="place-img-placeholder" style="background:${d.bg}">
-                        <span style="font-size:3.5rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.13))">${d.emoji}</span>
+                        ${d.image_url ? '<img src="' + d.image_url + '" alt="' + d.name + '" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:0">' : '<span style="font-size:3.5rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.13))">' + d.emoji + '</span>'}
                         <span class="place-category-badge">${d.category}</span>
                         <button class="fav-btn ${isFav?'active':''}" onclick="toggleFav(event,${d.id})" title="${isFav?'Remove favourite':'Save favourite'}">
                             ${isFav ? '⭐' : '☆'}
@@ -868,7 +967,7 @@ function renderGrid() {
                         </span>
                         <h3><a href="#">${d.name}, ${d.flag} ${d.country}</a></h3>
                         <div class="rating-stars">${starsStr(rating)}</div>
-                        <p class="dolor">${d.reviews.length} review${d.reviews.length!==1?'s':''} &nbsp;·&nbsp; ${d.tags[0]}</p>
+                        <p class="dolor">${reviewCount(d)} review${reviewCount(d)!==1?'s':''}${d.tags.length ? ' &nbsp;·&nbsp; ' + d.tags[0] : ''}</p>
                     </div>
                     <div class="place-cap-bottom">
                         <ul>
@@ -936,7 +1035,19 @@ function switchTab(tab) {
     currentPage = 1;
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('tab-'+tab).classList.add('active');
-    renderGrid();
+
+    const isRecs = tab === 'recs';
+    document.getElementById('recsSection').style.display   = isRecs ? '' : 'none';
+    document.getElementById('paginationWrap').style.display = isRecs ? 'none' : '';
+
+    /* Hide/show main grid & controls */
+    document.getElementById('allDestsSection').style.display = isRecs ? 'none' : '';
+
+    if (isRecs) {
+        loadRecommendations();
+    } else {
+        renderGrid();
+    }
 }
 function applySearch() {
     searchQuery = document.getElementById('heroSearch').value.trim();
@@ -952,48 +1063,85 @@ function applySort() {
 /* ═══════════════════════════════════
    FAVOURITES
 ═══════════════════════════════════ */
-function toggleFav(event, id) {
+async function toggleFav(event, id) {
     event.stopPropagation();
-    if (favourites.has(id)) { favourites.delete(id); showToast('Removed from favourites','t-warning'); }
-    else                     { favourites.add(id);    showToast('Saved to favourites ⭐','t-success'); }
+    const token = localStorage.getItem('tp_token');
+    if (!token) { showToast('Please log in to save favourites', 't-warning'); return; }
+
+    /* Optimistic UI update */
+    const wasFav = favourites.has(id);
+    if (wasFav) { favourites.delete(id); showToast('Removed from favourites', 't-warning'); }
+    else        { favourites.add(id);    showToast('Saved to favourites ⭐', 't-success'); }
     if (openId === id) updateModalFavBtn(id);
     renderGrid();
+
+    /* Persist to backend */
+    try {
+        const res = await fetch(`http://localhost:8080/api/favourites/${id}`, {
+            method:  'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error();
+        /* Invalidate recs cache so it reflects updated favourites */
+        recsLoaded = false;
+    } catch (_) {
+        /* Revert on failure */
+        if (wasFav) favourites.add(id); else favourites.delete(id);
+        if (openId === id) updateModalFavBtn(id);
+        renderGrid();
+        showToast('Could not save favourite. Please try again.', 't-warning');
+    }
 }
 
 /* ═══════════════════════════════════
    DETAIL MODAL
 ═══════════════════════════════════ */
-function openDetail(id) {
+async function openDetail(id) {
     const d = DESTINATIONS.find(x => x.id===id);
     if (!d) return;
     openId = id;
     pickedStars = 0;
 
     const header = document.getElementById('modalImgHeader');
-    header.style.background = d.bg;
-    // clear old emoji
-    header.querySelectorAll('.m-emoji').forEach(e=>e.remove());
-    const em = document.createElement('span');
-    em.className = 'm-emoji';
-    em.style.cssText = 'font-size:4.5rem;filter:drop-shadow(0 2px 12px rgba(0,0,0,0.15))';
-    em.textContent = d.emoji;
-    header.appendChild(em);
+    header.querySelectorAll('.m-emoji, .m-img').forEach(e=>e.remove());
+    if (d.image_url) {
+        header.style.background = '#000';
+        const img = document.createElement('img');
+        img.className = 'm-img';
+        img.src = d.image_url;
+        img.alt = d.name;
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;position:absolute;top:0;left:0;opacity:0.85';
+        header.style.position = 'relative';
+        header.appendChild(img);
+    } else {
+        header.style.background = d.bg;
+        const em = document.createElement('span');
+        em.className = 'm-emoji';
+        em.style.cssText = 'font-size:4.5rem;filter:drop-shadow(0 2px 12px rgba(0,0,0,0.15))';
+        em.textContent = d.emoji;
+        header.appendChild(em);
+    }
 
-    const rating = avgRating(d);
-    document.getElementById('modalName').textContent    = d.name;
-    document.getElementById('modalCountry').innerHTML   = `<i class="fas fa-map-marker-alt" style="color:#16a085;font-size:11px"></i> ${d.flag} ${d.country}`;
-    document.getElementById('modalRatingNum').textContent = rating;
-    document.getElementById('modalStarsRow').innerHTML  = `<span style="color:#f59e0b">${starsStr(rating)}</span>`;
-    document.getElementById('modalRevLbl').textContent  = `${d.reviews.length} review${d.reviews.length!==1?'s':''}`;
-    document.getElementById('modalTagsWrap').innerHTML  = d.tags.map(t=>`<span class="modal-tag">${t}</span>`).join('');
+    document.getElementById('modalName').textContent     = d.name;
+    document.getElementById('modalCountry').innerHTML    = `<i class="fas fa-map-marker-alt" style="color:#16a085;font-size:11px"></i> ${d.flag} ${d.country}`;
+    document.getElementById('modalTagsWrap').innerHTML   = (d.tags ?? []).map(t=>`<span class="modal-tag">${t}</span>`).join('');
     document.getElementById('modalDescText').textContent = d.desc;
 
     updateModalFavBtn(id);
-    renderModalReviews(d);
     refreshStars();
 
+    /* Show modal immediately with loading state for reviews and trips */
+    document.getElementById('reviewsWrap').innerHTML = `<p class="no-reviews-msg">Loading reviews…</p>`;
+    document.getElementById('modalRatingNum').textContent = '—';
+    document.getElementById('modalStarsRow').innerHTML = '';
+    document.getElementById('modalRevLbl').textContent = '';
+    document.getElementById('tripDropdown').innerHTML = '<option value="">— Loading your trips… —</option>';
     document.getElementById('modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
+
+    /* Load reviews from backend, populate trips dropdown from cache */
+    await loadReviewsForDestination(id);
+    loadTripsDropdown();
 }
 
 function updateModalFavBtn(id) {
@@ -1017,46 +1165,134 @@ function maybeClose(e) {
 }
 
 /* ═══════════════════════════════════
+   LOAD TRIPS DROPDOWN
+═══════════════════════════════════ */
+async function loadTripsDropdown() {
+    const sel = document.getElementById('tripDropdown');
+    if (!sel) return;
+    if (!userTrips.length) {
+        sel.innerHTML = '<option value="">— No trips yet, create one first —</option>';
+    } else {
+        sel.innerHTML = '<option value="">— Select a trip —</option>' +
+            userTrips.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+    }
+    /* nice-select hides the real <select> and builds a custom div —
+       call update so it rebuilds from the new options */
+    if (window.jQuery && $('#tripDropdown').next('.nice-select').length) {
+        $('#tripDropdown').niceSelect('update');
+    }
+}
+
+/* ═══════════════════════════════════
+   LOAD REVIEWS FROM BACKEND
+═══════════════════════════════════ */
+async function loadReviewsForDestination(destId) {
+    const token = localStorage.getItem('tp_token');
+    const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+    try {
+        const res = await fetch(`http://localhost:8080/api/destinations/${destId}/reviews`, { headers });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        /* Update the cached counts so cards reflect the latest without a full reload */
+        const d = DESTINATIONS.find(x => x.id === destId);
+        if (d) {
+            d.review_count = (data.reviews || []).length;
+            d.avg_rating   = data.average_rating ?? 0;
+        }
+        renderModalReviewsFromAPI(data.reviews || [], data.average_rating);
+    } catch (_) {
+        document.getElementById('reviewsWrap').innerHTML =
+            `<p class="no-reviews-msg">Could not load reviews.</p>`;
+    }
+}
+
+function formatReviewDate(raw) {
+    if (!raw) return '';
+    /* MySQL returns datetime strings like "2026-06-03 14:22:00"
+       new Date() needs "2026-06-03T14:22:00" (with T) to parse correctly in all browsers */
+    const str = typeof raw === 'string' ? raw.replace(' ', 'T') : raw;
+    const d = new Date(str);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function renderModalReviewsFromAPI(reviews, averageRating) {
+    const wrap = document.getElementById('reviewsWrap');
+    const lbl  = document.getElementById('revCountLbl');
+    lbl.textContent = `(${reviews.length})`;
+
+    const rating = averageRating ?? 0;
+    document.getElementById('modalRatingNum').textContent = rating || '—';
+    document.getElementById('modalStarsRow').innerHTML = rating
+        ? `<span style="color:#f59e0b">${starsStr(rating)}</span>` : '';
+    document.getElementById('modalRevLbl').textContent =
+        `${reviews.length} review${reviews.length !== 1 ? 's' : ''}`;
+
+    if (!reviews.length) {
+        wrap.innerHTML = `<p class="no-reviews-msg">No reviews yet — be the first!</p>`;
+        return;
+    }
+    wrap.innerHTML = reviews.map(r => `
+        <div class="review-card">
+            <div class="review-card-top">
+                <span class="review-author">${escHtml(r.username || 'Anonymous')}</span>
+                <span class="review-date">${formatReviewDate(r.created_at)}</span>
+            </div>
+            <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+            <p class="review-body">${escHtml(r.comment || '')}</p>
+        </div>`).join('');
+}
+
+function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ═══════════════════════════════════
    ADD TO TRIP
 ═══════════════════════════════════ */
-function addToTrip() {
+async function addToTrip() {
     const sel = document.getElementById('tripDropdown');
-    if (!sel.value) { showToast('Please select a trip first','t-warning'); return; }
-    const d = DESTINATIONS.find(x=>x.id===openId);
-    const tripName = sel.options[sel.selectedIndex].text;
+    const tripId = sel.value;
+    if (!tripId) { showToast('Please select a trip first', 't-warning'); return; }
+
+    const token = localStorage.getItem('tp_token');
+    if (!token) { showToast('Please log in first', 't-warning'); return; }
+
     const btn = document.querySelector('.btn-add-trip');
-    btn.classList.add('pop');
-    setTimeout(()=>btn.classList.remove('pop'),300);
-    showToast(`📍 ${d.name} added to ${tripName}`, 't-success');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding…';
+
+    try {
+        const res = await fetch(`http://localhost:8080/api/trips/${tripId}/destinations`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ destination_id: openId })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            showToast(data.message || 'Could not add destination', 't-warning');
+        } else {
+            const tripName = sel.options[sel.selectedIndex].text;
+            const d = DESTINATIONS.find(x => x.id === openId);
+            btn.classList.add('pop');
+            setTimeout(() => btn.classList.remove('pop'), 300);
+            showToast(`📍 ${d ? d.name : 'Destination'} added to ${tripName}`, 't-success');
+        }
+    } catch (_) {
+        showToast('Network error. Please try again.', 't-warning');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-plus"></i> Add Destination to Trip';
+    }
 }
 
 /* ═══════════════════════════════════
    REVIEWS
 ═══════════════════════════════════ */
-function renderModalReviews(d) {
-    const wrap  = document.getElementById('reviewsWrap');
-    const lbl   = document.getElementById('revCountLbl');
-    lbl.textContent = `(${d.reviews.length})`;
-
-    if (!d.reviews.length) {
-        wrap.innerHTML = `<p class="no-reviews-msg">No reviews yet — be the first!</p>`;
-    } else {
-        wrap.innerHTML = d.reviews.slice().reverse().map(r=>`
-            <div class="review-card">
-                <div class="review-card-top">
-                    <span class="review-author">${r.author}</span>
-                    <span class="review-date">${r.date}</span>
-                </div>
-                <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
-                <p class="review-body">${r.comment}</p>
-            </div>`).join('');
-    }
-
-    const rating = avgRating(d);
-    document.getElementById('modalRatingNum').textContent = rating;
-    document.getElementById('modalStarsRow').innerHTML = `<span style="color:#f59e0b">${starsStr(rating)}</span>`;
-    document.getElementById('modalRevLbl').textContent = `${d.reviews.length} review${d.reviews.length!==1?'s':''}`;
-}
+/* renderModalReviews replaced by renderModalReviewsFromAPI above */
 
 function pickStar(v) { pickedStars = v; refreshStars(); }
 function refreshStars() {
@@ -1065,24 +1301,49 @@ function refreshStars() {
     });
 }
 
-function submitReview() {
-    if (!pickedStars) { showToast('Please pick a star rating','t-warning'); return; }
+async function submitReview() {
+    if (!pickedStars) { showToast('Please pick a star rating', 't-warning'); return; }
     const txt = document.getElementById('reviewTxt').value.trim();
-    if (!txt) { showToast('Please write a comment','t-warning'); return; }
-    const d = DESTINATIONS.find(x=>x.id===openId);
-    const now = new Date();
-    d.reviews.push({
-        author: 'You',
-        rating: pickedStars,
-        comment: txt,
-        date: now.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
-    });
-    document.getElementById('reviewTxt').value = '';
-    pickedStars = 0;
-    refreshStars();
-    renderModalReviews(d);
-    renderGrid();
-    showToast('Review posted! ✨','t-success');
+    if (!txt) { showToast('Please write a comment', 't-warning'); return; }
+
+    const token = localStorage.getItem('tp_token');
+    if (!token) { showToast('Please log in to leave a review', 't-warning'); return; }
+
+    const btn = document.querySelector('.btn-post-review');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting…';
+
+    try {
+        const res = await fetch(`http://localhost:8080/api/destinations/${openId}/reviews`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ rating: pickedStars, comment: txt })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            if (res.status === 409) {
+                showToast('You have already reviewed this destination.', 't-warning');
+            } else {
+                showToast(data.message || 'Could not post review', 't-warning');
+            }
+        } else {
+            document.getElementById('reviewTxt').value = '';
+            pickedStars = 0;
+            refreshStars();
+            /* Reload reviews from backend so the new one appears */
+            await loadReviewsForDestination(openId);
+            renderGrid();
+            showToast('Review posted! ✨', 't-success');
+        }
+    } catch (_) {
+        showToast('Network error. Please try again.', 't-warning');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Post Review';
+    }
 }
 
 /* ═══════════════════════════════════
@@ -1099,17 +1360,164 @@ function showToast(msg, type='t-success') {
 }
 
 /* ═══════════════════════════════════
+   RECOMMENDATIONS
+═══════════════════════════════════ */
+async function loadRecommendations() {
+    const token = localStorage.getItem('tp_token');
+    const grid  = document.getElementById('recsGrid');
+    const badge = document.getElementById('badge-recs');
+
+    if (!token) {
+        grid.innerHTML = `
+            <div class="col-12"><div class="dest-empty">
+                <div class="dest-empty-icon">🔒</div>
+                <h4>Log in to see recommendations</h4>
+                <p>We personalise suggestions based on your favourites and trips.</p>
+                <a href="login.html" class="btn" style="background:#2d6a4f;color:#fff;padding:10px 28px;border-radius:50px;font-weight:700;font-size:13px;text-decoration:none;display:inline-block;margin-top:8px">Log In</a>
+            </div></div>`;
+        return;
+    }
+
+    /* Use cached results if already loaded this session */
+    if (recsLoaded && RECOMMENDATIONS.length) {
+        renderRecs();
+        return;
+    }
+
+    grid.innerHTML = `
+        <div class="col-12 text-center" style="padding:60px 0;color:#8a8f9e">
+            <div style="width:36px;height:36px;border:3px solid #eee;border-top-color:#16a085;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px"></div>
+            <p style="font-size:13px">Loading recommendations…</p>
+        </div>`;
+
+    try {
+        /* Pass current trip_id if one is open — not applicable on this page, omit */
+        const res  = await fetch('http://localhost:8080/api/destinations/recommendations', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        RECOMMENDATIONS = data.recommendations || [];
+        recsLoaded = true;
+        badge.textContent = RECOMMENDATIONS.length;
+        renderRecs();
+    } catch (_) {
+        grid.innerHTML = `
+            <div class="col-12"><div class="dest-empty">
+                <div class="dest-empty-icon">⚠️</div>
+                <h4>Could not load recommendations</h4>
+                <p>Please check your connection and try again.</p>
+            </div></div>`;
+    }
+}
+
+function renderRecs() {
+    const grid     = document.getElementById('recsGrid');
+    const subtitle = document.getElementById('recsSubtitle');
+
+    if (!RECOMMENDATIONS.length) {
+        subtitle.textContent = 'Explore destinations to get personalised suggestions';
+        grid.innerHTML = `
+            <div class="col-12"><div class="dest-empty">
+                <div class="dest-empty-icon">🌍</div>
+                <h4>No recommendations yet</h4>
+                <p>Save some favourite destinations or add trips to get personalised suggestions.</p>
+            </div></div>`;
+        return;
+    }
+
+    subtitle.textContent = 'Based on your favourites and travel history';
+
+    grid.innerHTML = RECOMMENDATIONS.map(d => {
+        const isFav   = favourites.has(d.id);
+        const rating  = d.avg_rating || d.rating || 0;
+        const reviews = d.review_count || 0;
+        return `
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <div class="single-place mb-30" onclick="openDetail(${d.id})" style="cursor:pointer">
+                <div class="place-img" style="background:${d.bg || 'linear-gradient(135deg,#2d6a4f,#1b4332)'};height:200px;border-radius:14px 14px 0 0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:3rem">
+                    ${d.image_url ? '<img src="' + d.image_url + '" alt="' + d.name + '" style="width:100%;height:100%;object-fit:cover;display:block">' : (d.flag || '🌍')}
+                </div>
+                <div class="place-cap">
+                    <div class="place-cap-top">
+                        <span class="place-btn">${d.country || ''}</span>
+                        <h3><a href="#" onclick="event.preventDefault();openDetail(${d.id})">${String(d.name||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</a></h3>
+                        <div class="rating-stars">${'★'.repeat(Math.round(rating))}${'☆'.repeat(5-Math.round(rating))}</div>
+                        <span class="review-count">${reviews} review${reviews!==1?'s':''}</span>
+                    </div>
+                    <div class="place-cap-bottom" style="display:flex;justify-content:space-between;align-items:center;padding:10px 16px">
+                        <button class="fav-btn ${isFav?'active':''}" onclick="toggleFav(event,${d.id})" title="${isFav?'Remove favourite':'Save favourite'}" style="background:none;border:none;font-size:18px;cursor:pointer;color:${isFav?'#f59e0b':'#ccc'}">
+                            ${isFav?'★':'☆'}
+                        </button>
+                        <button onclick="event.stopPropagation();openDetail(${d.id})" style="background:#2d6a4f;color:#fff;border:none;border-radius:50px;padding:6px 18px;font-size:12px;font-weight:700;cursor:pointer">View</button>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+/* ═══════════════════════════════════
    INIT
 ═══════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('heroSearch').addEventListener('keyup', e => {
         if (e.key === 'Enter') { applySearch(); return; }
         const v = e.target.value.trim();
         if (v.length >= 2 || v.length === 0) { searchQuery = v; currentPage = 1; renderGrid(); }
     });
     document.addEventListener('keydown', e => { if (e.key==='Escape') closeModal(); });
-    renderGrid();
+
+    /* Load saved favourites from backend if logged in */
+    const token = localStorage.getItem('tp_token');
+    if (token) {
+        try {
+            const res  = await fetch('http://localhost:8080/api/favourites', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                favourites = new Set((data.favourites || []).map(d => d.id));
+            }
+        } catch (_) { /* silently ignore */ }
+
+        /* Cache user trips so the modal dropdown works instantly */
+        try {
+            const res  = await fetch('http://localhost:8080/api/trips', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                userTrips = data.trips || [];
+            }
+        } catch (_) { /* silently ignore */ }
+    }
+
+    await loadDestinations();
 });
+</script>
+
+<script>
+/* ── AUTH-AWARE NAVBAR ── */
+(function () {
+    const token = localStorage.getItem('tp_token');
+    const user  = JSON.parse(localStorage.getItem('tp_user') || '{}');
+    const item  = document.getElementById('nav-auth-item');
+    if (!item) return;
+
+    if (token && user.first_name) {
+        item.innerHTML =
+            `<a href="profile.html" style="font-weight:700;">Hi, ${user.first_name || user.username}</a>`;
+        item.insertAdjacentHTML('afterend',
+            `<li><a href="#" id="navLogoutBtn" style="font-size:13px;opacity:.75;">Logout</a></li>`);
+        document.getElementById('navLogoutBtn').addEventListener('click', function (e) {
+            e.preventDefault();
+            localStorage.removeItem('tp_token');
+            localStorage.removeItem('tp_user');
+            window.location.href = 'login.html';
+        });
+    }
+})();
 </script>
 </body>
 </html>

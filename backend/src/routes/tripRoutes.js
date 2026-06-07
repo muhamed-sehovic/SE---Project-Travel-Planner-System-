@@ -1,5 +1,3 @@
-
-
 const router      = require("express").Router();
 const trips       = require("../controllers/tripController");
 const itinerary   = require("../controllers/itineraryController");
@@ -17,6 +15,7 @@ router.get   ("/:id",        trips.getTrip);
 router.put   ("/:id",        validate.updateTrip,  trips.updateTrip);
 router.delete("/:id",        trips.deleteTrip);
 
+router.get   ("/:tripId/share",      share.getShareStatus);
 router.post  ("/:tripId/share",  share.generateShareLink);
 router.delete("/:tripId/share",  share.revokeShareLink);
 

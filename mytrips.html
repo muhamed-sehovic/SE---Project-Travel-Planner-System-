@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="assets/css/slick.css">
     <link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
 
     <style>
         *, *::before, *::after { box-sizing: border-box; }
@@ -242,6 +244,85 @@
             .tc-actions { flex-wrap: wrap; }
             .detail-tabs .detail-tab span { display: none; }
         }
+
+        /* ── NOTIFICATION BELL ── */
+        .notif-wrap { position: relative; display: inline-block; }
+        .notif-bell-btn {
+            background: none; border: none; cursor: pointer; padding: 4px 8px;
+            color: #555; font-size: 18px; position: relative; line-height: 1;
+            transition: color 0.2s;
+        }
+        .notif-bell-btn:hover { color: #16a085; }
+        .notif-badge {
+            position: absolute; top: -2px; right: 2px;
+            background: #e74c3c; color: #fff;
+            font-size: 10px; font-weight: 800;
+            min-width: 17px; height: 17px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            line-height: 1; padding: 0 3px;
+            pointer-events: none;
+        }
+        .notif-badge.hidden { display: none; }
+        .notif-dropdown {
+            display: none; position: absolute; right: 0; top: calc(100% + 8px);
+            width: 340px; background: #fff;
+            border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.14);
+            border: 1px solid #eeeff2; z-index: 9999; overflow: hidden;
+        }
+        .notif-dropdown.open { display: block; }
+        .notif-drop-head {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 18px 12px; border-bottom: 1px solid #eeeff2;
+        }
+        .notif-drop-head h4 { font-size: 14px; font-weight: 800; color: #1a1a1a; margin: 0; }
+        .notif-mark-all {
+            font-size: 11px; font-weight: 700; color: #16a085;
+            background: none; border: none; cursor: pointer; padding: 0;
+        }
+        .notif-mark-all:hover { color: #1b4332; }
+        .notif-list { max-height: 320px; overflow-y: auto; }
+        .notif-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 12px 18px; border-bottom: 1px solid #f4f5f7;
+            cursor: pointer; transition: background 0.15s;
+        }
+        .notif-item:hover { background: #f7f8fa; }
+        .notif-item.unread { background: #f0faf4; }
+        .notif-item.unread:hover { background: #e6f7ed; }
+        .notif-dot {
+            width: 8px; height: 8px; border-radius: 50%; background: #16a085;
+            flex-shrink: 0; margin-top: 5px;
+        }
+        .notif-dot.read { background: #ddd; }
+        .notif-msg { font-size: 12.5px; color: #333; line-height: 1.5; flex: 1; }
+        .notif-time { font-size: 11px; color: #aaa; margin-top: 3px; }
+        .notif-empty { text-align: center; padding: 32px 20px; font-size: 13px; color: #aaa; }
+        .notif-drop-foot {
+            padding: 10px 18px; border-top: 1px solid #eeeff2; text-align: center;
+        }
+        .notif-drop-foot a { font-size: 12px; font-weight: 700; color: #16a085; text-decoration: none; }
+        .notif-drop-foot a:hover { color: #1b4332; }
+
+        /* ── MAP PANE ── */
+        #trip-map { height: 360px; width: 100%; border-radius: 12px; z-index: 1; }
+        .map-fallback { padding: 40px 20px; text-align: center; font-size: 13px; color: var(--muted); }
+        .map-no-coords { background: #fff8e1; border: 1px solid #ffe082; border-radius: 10px;
+            padding: 10px 14px; font-size: 12px; color: #7a5c00; font-weight: 600;
+            margin-top: 12px; display: flex; align-items: center; gap: 8px; }
+
+        /* ── SHARE PANE ── */
+        .share-info-box { background: var(--g-light); border: 1px solid #b7e4c7; border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; font-size: 13px; color: var(--g-deep); display: flex; align-items: flex-start; gap: 10px; }
+        .share-info-box i { margin-top: 2px; flex-shrink: 0; color: var(--g-mid); }
+        .share-link-row { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
+        .share-link-input { flex: 1; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 12px; font-family: inherit; color: var(--text); background: #f7f8fa; outline: none; }
+        .btn-copy-link { padding: 10px 16px; background: var(--g-teal); color: #fff; border: none; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: background .2s; flex-shrink: 0; }
+        .btn-copy-link:hover { background: var(--g-mid); }
+        .btn-gen-share { width: 100%; padding: 12px; background: var(--g-mid); color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background .2s, transform .15s; margin-bottom: 10px; }
+        .btn-gen-share:hover { background: var(--g-deep); transform: translateY(-1px); }
+        .btn-revoke-share { width: 100%; padding: 10px; background: var(--rose-lt); color: var(--rose); border: 1.5px solid #f5c6c6; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: all .15s; }
+        .btn-revoke-share:hover { background: var(--rose); color: #fff; }
+        .share-expiry-note { font-size: 11px; color: var(--muted); text-align: center; margin-top: 8px; }
+        .share-loading { text-align: center; padding: 32px 0; color: var(--muted); font-size: 13px; }
     </style>
 </head>
 <body>
@@ -273,7 +354,22 @@
                                         <li><a href="index.html">Home</a></li>
                                         <li><a href="destinations.html">Destinations</a></li>
                                         <li><a href="mytrips.html" class="active">My Trips</a></li>
-                                        <li><a href="#" id="navUserLink">Login / Register</a></li>
+                                        <li class="notif-wrap" id="notifNavItem" style="display:none">
+                                            <button class="notif-bell-btn" id="notifBellBtn" onclick="toggleNotifDropdown(event)" title="Notifications">
+                                                🔔<span class="notif-badge hidden" id="notifBadge"></span>
+                                            </button>
+                                            <div class="notif-dropdown" id="notifDropdown">
+                                                <div class="notif-drop-head">
+                                                    <h4>Notifications</h4>
+                                                    <button class="notif-mark-all" onclick="markAllRead()">Mark all read</button>
+                                                </div>
+                                                <div class="notif-list" id="notifList"></div>
+                                                <div class="notif-drop-foot">
+                                                    <a href="#" onclick="markAllRead();return false;">Clear all</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li id="nav-auth-item"><a href="login.html">Login / Register</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -371,7 +467,8 @@
 </main>
 
 <footer>
-    <div class="footer-area footer-padding footer-bg" data-background="assets/img/service/footer_bg.jpg">
+    <div class="footer-area footer-padding footer-bg"
+         data-background="assets/img/service/footer_bg.jpg">
         <div class="container">
             <div class="row d-flex justify-content-between">
                 <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
@@ -381,8 +478,47 @@
                         </div>
                         <div class="footer-tittle">
                             <div class="footer-pera">
-                                <p>Your personal trip planning tool.</p>
+                                <p>Your personal trip planning tool. Create itineraries, track budgets, and organise every detail of your journey — all in one place.</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Product</h4>
+                            <ul>
+                                <li><a href="mytrips.html">My Trips</a></li>
+                                <li><a href="destinations.html">Destinations</a></li>
+                                <li><a href="mytrips.html">Budget Tracker</a></li>
+                                <li><a href="destinations.html">Recommendations</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Account</h4>
+                            <ul>
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="login.html">Register</a></li>
+                                <li><a href="profile.html">Profile Settings</a></li>
+                                <li><a href="login.html">Reset Password</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="faq.html">Frequently Asked Questions</a></li>
+                                <li><a href="terms.html">Terms &amp; Conditions</a></li>
+                                <li><a href="privacy.html">Privacy Policy</a></li>
+                                <li><a href="contact.html">Contact Us</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -459,6 +595,8 @@
                 <button class="detail-tab active" onclick="switchDetailTab('itinerary',this)"><i class="fas fa-calendar-alt"></i> <span>Itinerary</span></button>
                 <button class="detail-tab" onclick="switchDetailTab('budget',this)"><i class="fas fa-wallet"></i> <span>Budget</span></button>
                 <button class="detail-tab" onclick="switchDetailTab('destinations',this)"><i class="fas fa-map-marker-alt"></i> <span>Destinations</span></button>
+                <button class="detail-tab" onclick="switchDetailTab('map',this)"><i class="fas fa-map"></i> <span>Map</span></button>
+                <button class="detail-tab" onclick="switchDetailTab('share',this)"><i class="fas fa-share-alt"></i> <span>Share</span></button>
             </div>
 
             <!-- ITINERARY PANE -->
@@ -490,6 +628,25 @@
                     </div>
                     <div id="dest-search-results" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px"></div>
                 </div>
+            </div>
+
+            <!-- MAP PANE -->
+            <div class="detail-pane" id="pane-map">
+                <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">All destinations for this trip shown on the map. Click a pin for details.</p>
+                <div id="trip-map"></div>
+                <div id="map-no-coords" class="map-no-coords" style="display:none">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Some destinations don't have coordinates and won't appear on the map.</span>
+                </div>
+                <div id="map-fallback" class="map-fallback" style="display:none">
+                    <i class="fas fa-map" style="font-size:2rem;margin-bottom:10px;display:block"></i>
+                    No destinations with location data added to this trip yet.
+                </div>
+            </div>
+
+            <!-- SHARE PANE -->
+            <div class="detail-pane" id="pane-share">
+                <div id="share-pane-content"></div>
             </div>
         </div>
     </div>
@@ -625,18 +782,7 @@ const API = 'http://localhost:8080/api';
 const TOKEN = localStorage.getItem('tp_token');
 if (!TOKEN) { window.location.href = 'login.html'; }
 
-const navUserLink = document.getElementById('navUserLink');
-const storedUser  = JSON.parse(localStorage.getItem('tp_user') || '{}');
-if (storedUser.first_name) {
-    navUserLink.textContent = `Hi, ${storedUser.first_name}`;
-    navUserLink.href = '#';
-    navUserLink.addEventListener('click', e => {
-        e.preventDefault();
-        localStorage.removeItem('tp_token');
-        localStorage.removeItem('tp_user');
-        window.location.href = 'login.html';
-    });
-}
+
 
 /* ══════════════════════════════════════════════════════
    API HELPER
@@ -650,12 +796,14 @@ async function api(method, path, body) {
         }
     };
     if (body) opts.body = JSON.stringify(body);
-    const res = await fetch(`${API}${path}`, opts);
+    let res;
+    try {
+        res = await fetch(`${API}${path}`, opts);
+    } catch (networkErr) {
+        throw new Error('Cannot reach server. Is it running?');
+    }
     if (res.status === 401) {
-        localStorage.removeItem('tp_token');
-        localStorage.removeItem('tp_user');
-        window.location.href = 'login.html';
-        return;
+        throw new Error('Unauthorized');
     }
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Request failed');
@@ -686,8 +834,13 @@ function tripStatus(t) {
 
 function fmtDate(d) {
     if (!d) return '';
-    const dt = new Date(d);
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    /* Parse as local date to avoid UTC midnight rolling back one day in negative-offset timezones */
+    const s = String(d).slice(0, 10);
+    const [yr, mo, dy] = s.split('-').map(Number);
+    if (yr && mo && dy) return `${dy} ${months[mo - 1]} ${yr}`;
+    /* Fallback for datetime strings (e.g. expense created_at) */
+    const dt = new Date(d);
     return `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}`;
 }
 
@@ -1062,6 +1215,8 @@ function switchDetailTab(tab, btn) {
     document.querySelectorAll('.detail-pane').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('pane-' + tab).classList.add('active');
+    if (tab === 'map')   renderTripMap();
+    if (tab === 'share') renderSharePane();
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1433,9 +1588,101 @@ function showToast(msg, type = 't-success') {
 }
 
 /* ══════════════════════════════════════════════════════
-   INIT
+   SHARE (US-20)
+══════════════════════════════════════════════════════ */
+async function renderSharePane() {
+    const wrap = document.getElementById('share-pane-content');
+    wrap.innerHTML = '<div class="share-loading"><div class="spinner" style="width:32px;height:32px;margin:0 auto 10px"></div>Checking share status…</div>';
+    try {
+        /* Try to fetch the existing share token for this trip */
+        const res = await fetch(`${API}/trips/${openTripId}/share`, {
+            headers: { 'Authorization': `Bearer ${TOKEN}` }
+        });
+        if (res.ok) {
+            const data = await res.json();
+            renderShareActive(data.share_url, data.share_token, data.expires_at, wrap);
+        } else {
+            renderShareInactive(wrap);
+        }
+    } catch (_) {
+        renderShareInactive(wrap);
+    }
+}
+
+function renderShareActive(url, token, expiresAt, wrap) {
+    const exp     = new Date(expiresAt);
+    const daysLeft = Math.ceil((exp - Date.now()) / 86400000);
+    const expTxt   = `Expires ${fmtDate(expiresAt)}${daysLeft <= 7 ? ` — ${daysLeft} day${daysLeft !== 1 ? 's' : ''} left` : ''}`;
+    wrap.innerHTML = `
+        <div class="share-info-box">
+            <i class="fas fa-eye"></i>
+            <span>Anyone with this link can view your trip's itinerary and destinations in <strong>read-only</strong> mode. Budget and expenses are always hidden.</span>
+        </div>
+        <label class="form-label" style="margin-bottom:6px">Share Link</label>
+        <div class="share-link-row">
+            <input class="share-link-input" id="shareLinkInput" type="text" value="${esc(url)}" readonly onclick="this.select()">
+            <button class="btn-copy-link" onclick="copyShareLink()"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+        <p class="share-expiry-note"><i class="fas fa-clock"></i> ${expTxt}</p>
+        <div style="margin-top:18px;border-top:1px solid var(--border);padding-top:16px">
+            <button class="btn-revoke-share" onclick="revokeShare()"><i class="fas fa-ban"></i> Revoke Link</button>
+            <p class="share-expiry-note" style="margin-top:8px">Revoking immediately disables this link for anyone who has it.</p>
+        </div>`;
+}
+
+function renderShareInactive(wrap) {
+    wrap.innerHTML = `
+        <div class="share-info-box">
+            <i class="fas fa-share-alt"></i>
+            <span>Generate a shareable link so others can view this trip's itinerary and destinations. Budget and expenses are always kept private.</span>
+        </div>
+        <button class="btn-gen-share" id="genShareBtn" onclick="generateShare()">
+            <i class="fas fa-link"></i> Generate Share Link
+        </button>
+        <p class="share-expiry-note">Links are valid for 30 days and can be revoked at any time.</p>`;
+}
+
+async function generateShare() {
+    const btn = document.getElementById('genShareBtn');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating…'; }
+    try {
+        const data = await api('POST', `/trips/${openTripId}/share`);
+        renderShareActive(data.share_url, data.share_token, data.expires_at,
+            document.getElementById('share-pane-content'));
+        showToast('Share link created ✓', 't-success');
+    } catch (err) {
+        showToast(err.message, 't-error');
+        renderShareInactive(document.getElementById('share-pane-content'));
+    }
+}
+
+async function revokeShare() {
+    try {
+        await api('DELETE', `/trips/${openTripId}/share`);
+        renderShareInactive(document.getElementById('share-pane-content'));
+        showToast('Share link revoked', 't-warning');
+    } catch (err) {
+        showToast(err.message, 't-error');
+    }
+}
+
+function copyShareLink() {
+    const input = document.getElementById('shareLinkInput');
+    if (!input) return;
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(input.value).then(() => showToast('Link copied! 📋', 't-success'));
+    } else {
+        input.select();
+        document.execCommand('copy');
+        showToast('Link copied! 📋', 't-success');
+    }
+}
+
+/* ══════════════════════════════════════════════════════
+   INIT — single DOMContentLoaded (merged)
 ══════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
+    /* Modal backdrop + Escape close */
     document.querySelectorAll('.modal-overlay').forEach(el => {
         el.addEventListener('click', e => { if (e.target === el) closeModal(el.id); });
     });
@@ -1446,8 +1693,228 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter') { e.preventDefault(); searchAndAddDest(); }
     });
 
+    /* Auth-aware navbar */
+    const token = localStorage.getItem('tp_token');
+    const user  = JSON.parse(localStorage.getItem('tp_user') || '{}');
+    const displayName = user.first_name || user.username || '';
+    if (token && displayName) {
+        document.querySelectorAll('#nav-auth-item').forEach(function (item) {
+            item.innerHTML = '<a href="profile.html" style="font-weight:700;">Hi, ' + displayName + '</a>';
+        });
+        const desktopItem = document.querySelector('#navigation #nav-auth-item');
+        if (desktopItem && !document.getElementById('navLogoutBtn')) {
+            desktopItem.insertAdjacentHTML('afterend',
+                '<li><a href="#" id="navLogoutBtn" style="font-size:13px;opacity:.75;">Logout</a></li>');
+            document.getElementById('navLogoutBtn').addEventListener('click', function (e) {
+                e.preventDefault();
+                localStorage.removeItem('tp_token');
+                localStorage.removeItem('tp_user');
+                window.location.href = 'login.html';
+            });
+        }
+        const bellItem = document.getElementById('notifNavItem');
+        if (bellItem) bellItem.style.display = '';
+        fetchNotifications();
+        notifPollTimer = setInterval(fetchNotifications, 60000);
+    }
+
+    /* Close notification dropdown when clicking outside */
+    document.addEventListener('click', function (e) {
+        const dropdown = document.getElementById('notifDropdown');
+        const bell     = document.getElementById('notifBellBtn');
+        if (dropdown && bell && !bell.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.remove('open');
+        }
+    });
+
     loadTrips();
 });
+/* ── NOTIFICATIONS ── */
+const NOTIF_API = 'http://localhost:8080/api';
+let notifPollTimer = null;
+
+async function fetchNotifications() {
+    const token = localStorage.getItem('tp_token');
+    if (!token) return;
+    try {
+        const res  = await fetch(NOTIF_API + '/notifications', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        renderNotifications(data.notifications || [], data.unread_count || 0);
+    } catch (_) {}
+}
+
+function renderNotifications(notifications, unreadCount) {
+    /* Badge */
+    const badge = document.getElementById('notifBadge');
+    if (badge) {
+        if (unreadCount > 0) {
+            badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+            badge.classList.remove('hidden');
+        } else {
+            badge.classList.add('hidden');
+        }
+    }
+
+    /* List */
+    const list = document.getElementById('notifList');
+    if (!list) return;
+
+    if (notifications.length === 0) {
+        list.innerHTML = '<div class="notif-empty">🔔 No notifications yet</div>';
+        return;
+    }
+
+    list.innerHTML = notifications.map(function (n) {
+        const isUnread = !n.is_read;
+        const time     = formatNotifTime(n.created_at);
+        return '<div class="notif-item ' + (isUnread ? 'unread' : '') + '" onclick="markRead(' + n.id + ', this)">' +
+                   '<div class="notif-dot ' + (isUnread ? '' : 'read') + '"></div>' +
+                   '<div>' +
+                       '<div class="notif-msg">' + escHtml(n.message) + '</div>' +
+                       '<div class="notif-time">' + time + '</div>' +
+                   '</div>' +
+               '</div>';
+    }).join('');
+}
+
+function toggleNotifDropdown(e) {
+    e.stopPropagation();
+    const dropdown = document.getElementById('notifDropdown');
+    if (!dropdown) return;
+    const isOpen = dropdown.classList.toggle('open');
+    if (isOpen) fetchNotifications();
+}
+
+async function markRead(id, el) {
+    const token = localStorage.getItem('tp_token');
+    if (!token) return;
+    try {
+        await fetch(NOTIF_API + '/notifications/' + id + '/read', {
+            method:  'PUT',
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (el) {
+            el.classList.remove('unread');
+            const dot = el.querySelector('.notif-dot');
+            if (dot) dot.classList.add('read');
+        }
+        fetchNotifications();
+    } catch (_) {}
+}
+
+async function markAllRead() {
+    const token = localStorage.getItem('tp_token');
+    if (!token) return;
+    try {
+        await fetch(NOTIF_API + '/notifications/read-all', {
+            method:  'PUT',
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        fetchNotifications();
+    } catch (_) {}
+}
+
+function formatNotifTime(dateStr) {
+    if (!dateStr) return '';
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins  = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days  = Math.floor(diff / 86400000);
+    if (mins  <  1) return 'Just now';
+    if (mins  < 60) return mins  + 'm ago';
+    if (hours < 24) return hours + 'h ago';
+    if (days  <  7) return days  + 'd ago';
+    return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
+function escHtml(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 </script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ══════════════════════════════════════════════════════
+   MAP INTEGRATION — Leaflet.js (US-24)
+══════════════════════════════════════════════════════ */
+let tripMap     = null;
+let mapMarkers  = [];
+
+function renderTripMap() {
+    const dests = (openTripData && openTripData.destinations) || [];
+
+    const mapped = dests.filter(function(d) {
+        return d.latitude  != null && d.latitude  !== '' &&
+               d.longitude != null && d.longitude !== '' &&
+               !isNaN(parseFloat(d.latitude)) && !isNaN(parseFloat(d.longitude));
+    });
+
+    const hasMissing = mapped.length < dests.length && dests.length > 0;
+    document.getElementById('map-no-coords').style.display = hasMissing ? '' : 'none';
+    document.getElementById('map-fallback').style.display  = mapped.length === 0 ? '' : 'none';
+    document.getElementById('trip-map').style.display      = mapped.length > 0   ? '' : 'none';
+
+    if (mapped.length === 0) return;
+
+    if (!tripMap) {
+        tripMap = L.map('trip-map', { scrollWheelZoom: false });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            maxZoom: 18
+        }).addTo(tripMap);
+    }
+
+    mapMarkers.forEach(function(m) { m.remove(); });
+    mapMarkers = [];
+
+    var pinIcon = L.divIcon({
+        className: '',
+        html: '<div style="width:28px;height:28px;background:#2d6a4f;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,0.3)"></div>',
+        iconSize:   [28, 28],
+        iconAnchor: [14, 28],
+        popupAnchor:[0, -30]
+    });
+
+    var bounds = [];
+    mapped.forEach(function(d) {
+        var lat = parseFloat(d.latitude);
+        var lng = parseFloat(d.longitude);
+        var popup =
+            '<div style="font-family:Plus Jakarta Sans,sans-serif;min-width:140px">' +
+            '<strong style="font-size:13px;color:#1a1a1a">' + escMap(d.name) + '</strong>' +
+            (d.country ? '<br><span style="font-size:11px;color:#888">' + escMap(d.country) + '</span>' : '') +
+            (d.description ? '<br><span style="font-size:11px;color:#555;margin-top:4px;display:block">' + escMap(d.description.slice(0,80)) + (d.description.length > 80 ? '…' : '') + '</span>' : '') +
+            '</div>';
+        var marker = L.marker([lat, lng], { icon: pinIcon }).addTo(tripMap).bindPopup(popup);
+        mapMarkers.push(marker);
+        bounds.push([lat, lng]);
+    });
+
+    if (bounds.length === 1) {
+        tripMap.setView(bounds[0], 10);
+    } else {
+        tripMap.fitBounds(bounds, { padding: [40, 40] });
+    }
+
+    setTimeout(function() { tripMap.invalidateSize(); }, 100);
+}
+
+function escMap(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* Reset markers when modal closes */
+var _origClose = window.closeModal;
+window.closeModal = function(id) {
+    if (id === 'tripDetailModal') {
+        mapMarkers.forEach(function(m) { m.remove(); });
+        mapMarkers = [];
+    }
+    if (_origClose) _origClose(id);
+};
+</script>
+
 </body>
 </html>

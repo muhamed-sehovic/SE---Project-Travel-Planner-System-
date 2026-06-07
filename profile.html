@@ -1,0 +1,1104 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>My Profile — Travel Planner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/flaticon.css">
+    <link rel="stylesheet" href="assets/css/slicknav.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/nice-select.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        body, h1, h2, h3, h4, h5, h6, p, a, span, li, div, input, button, label, select, textarea {
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+        }
+
+        /* ── Reuse site tokens ── */
+        :root {
+            --green-dark:   #1b4332;
+            --green-mid:    #2d6a4f;
+            --green-accent: #16a085;
+            --green-light:  #d8f3dc;
+            --amber:        #e07a3a;
+            --red-soft:     #fde8e8;
+            --red-text:     #be123c;
+            --text-main:    #1a1a1a;
+            --text-sub:     #8a8f9e;
+            --border:       #eeeff2;
+            --card-shadow:  0 2px 16px rgba(0,0,0,0.04);
+            --card-shadow-hover: 0 10px 36px rgba(0,0,0,0.09);
+            --radius-card:  18px;
+        }
+
+        .header-top { display: none !important; }
+        .header-bottom { box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
+
+        /* ── Page hero band ── */
+        .profile-hero {
+            background: linear-gradient(135deg, #1b4332 0%, #0d2b20 100%);
+            padding: 60px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-hero::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 360px; height: 360px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+        .profile-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -60px; left: -60px;
+            width: 220px; height: 220px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+        .profile-hero h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .profile-hero p {
+            color: rgba(255,255,255,0.55);
+            font-size: 14px;
+            margin: 0;
+        }
+        .profile-avatar-wrap {
+            width: 72px; height: 72px;
+            background: rgba(255,255,255,0.15);
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; color: #fff;
+            flex-shrink: 0;
+        }
+
+        /* ── Pull-up card wrapper ── */
+        .profile-body-wrap {
+            margin-top: -52px;
+            padding-bottom: 80px;
+        }
+
+        /* ── Shared card style ── */
+        .prof-card {
+            background: #fff;
+            border-radius: var(--radius-card);
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            padding: 32px 28px;
+            margin-bottom: 24px;
+            transition: box-shadow 0.25s;
+        }
+        .prof-card:hover { box-shadow: var(--card-shadow-hover); }
+
+        .prof-card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .prof-card-title .icon-pill {
+            width: 34px; height: 34px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+        .icon-pill.green  { background: var(--green-light); color: var(--green-mid); }
+        .icon-pill.amber  { background: #fef3db; color: #b45309; }
+        .icon-pill.rose   { background: var(--red-soft); color: var(--red-text); }
+        .icon-pill.sky    { background: #ddf1fb; color: #0369a1; }
+
+        /* ── Form elements (consistent with project style) ── */
+        .prof-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .prof-input {
+            width: 100%;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 14px;
+            color: var(--text-main);
+            background: #fafafa;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        .prof-input:focus {
+            border-color: var(--green-accent);
+            box-shadow: 0 0 0 3px rgba(22,160,133,0.12);
+            background: #fff;
+        }
+        .prof-input:disabled {
+            background: #f4f5f7;
+            color: #aaa;
+            cursor: not-allowed;
+        }
+        .prof-input.is-error { border-color: #e74c3c; box-shadow: 0 0 0 3px rgba(231,76,60,0.1); }
+        .prof-input.is-success { border-color: var(--green-accent); }
+
+        .form-hint {
+            font-size: 11px;
+            color: #bbb;
+            margin-top: 5px;
+        }
+        .form-error-msg {
+            font-size: 11px;
+            color: #e74c3c;
+            margin-top: 5px;
+            display: none;
+        }
+        .form-error-msg.show { display: block; }
+
+        /* ── Buttons ── */
+        .btn-save {
+            background: linear-gradient(135deg, var(--green-mid) 0%, var(--green-dark) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-save:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+        .btn-outline-danger-prof {
+            background: none;
+            border: 1.5px solid #e74c3c;
+            color: #e74c3c;
+            border-radius: 50px;
+            padding: 11px 28px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-outline-danger-prof:hover { background: #fde8e8; }
+
+        /* ── Stats row ── */
+        .stat-chip {
+            background: #f8f9fb;
+            border-radius: 14px;
+            padding: 16px 18px;
+            text-align: center;
+            flex: 1;
+        }
+        .stat-chip-val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1;
+        }
+        .stat-chip-label {
+            font-size: 11px;
+            color: var(--text-sub);
+            margin-top: 4px;
+        }
+
+        /* ── Toggle switch ── */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .toggle-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .toggle-row:first-child { padding-top: 0; }
+        .toggle-label { font-size: 14px; font-weight: 600; color: var(--text-main); }
+        .toggle-desc  { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+
+        .tgl { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+        .tgl input { opacity: 0; width: 0; height: 0; }
+        .tgl-slider {
+            position: absolute; inset: 0;
+            background: #ddd;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .tgl-slider::before {
+            content: '';
+            position: absolute;
+            height: 18px; width: 18px;
+            left: 3px; bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+        }
+        .tgl input:checked + .tgl-slider { background: var(--green-accent); }
+        .tgl input:checked + .tgl-slider::before { transform: translateX(20px); }
+
+        /* ── Danger zone card ── */
+        .danger-zone-card {
+            background: #fff;
+            border-radius: var(--radius-card);
+            border: 1.5px solid #fbd5d5;
+            box-shadow: var(--card-shadow);
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        /* ── Toast ── */
+        #tp-toast {
+            position: fixed;
+            bottom: 32px; right: 32px;
+            background: var(--green-mid);
+            color: #fff;
+            padding: 14px 22px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), opacity 0.3s;
+            pointer-events: none;
+        }
+        #tp-toast.show { transform: translateY(0); opacity: 1; }
+        #tp-toast.error { background: #c0392b; }
+
+        /* ── Spinner ── */
+        .spin {
+            display: inline-block;
+            width: 14px; height: 14px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Password strength bar ── */
+        .pw-strength-wrap { margin-top: 8px; }
+        .pw-bar { height: 4px; border-radius: 2px; background: #eee; overflow: hidden; }
+        .pw-bar-fill { height: 100%; border-radius: 2px; width: 0; transition: width 0.3s, background 0.3s; }
+        .pw-strength-label { font-size: 11px; margin-top: 4px; color: #aaa; }
+
+        /* ── Responsive tweaks ── */
+        @media (max-width: 768px) {
+            .profile-hero { padding: 48px 0 80px; }
+            .profile-hero h1 { font-size: 1.5rem; }
+            .prof-card { padding: 22px 18px; }
+            #tp-toast { right: 16px; bottom: 16px; left: 16px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Preloader -->
+<div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="preloader-circle"></div>
+            <div class="preloader-img pere-text">
+                <img src="assets/img/logo/logo.png" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── HEADER (matches site) ── -->
+<header>
+    <div class="header-area">
+        <div class="main-header">
+            <div class="header-bottom header-sticky">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-2 col-lg-2 col-md-1">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/logo.png" alt="Travel Planner"></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-10 col-lg-10 col-md-10">
+                            <div class="main-menu f-right d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a href="destinations.html">Destinations</a></li>
+                                        <li><a href="mytrips.html">My Trips</a></li>
+                                        <li id="nav-auth-item"><a href="login.html">Login / Register</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <!-- ── PROFILE HERO BAND ── -->
+    <div class="profile-hero">
+        <div class="container">
+            <div class="d-flex align-items-center gap-4" style="gap: 20px !important;">
+                <div class="profile-avatar-wrap" id="heroAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div>
+                    <h1 id="heroName">My Profile</h1>
+                    <p id="heroEmail">Loading account information…</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── BODY ── -->
+    <div class="profile-body-wrap">
+        <div class="container">
+            <div class="row">
+
+                <!-- ── LEFT COLUMN ── -->
+                <div class="col-lg-8">
+
+                    <!-- Personal Information -->
+                    <div class="prof-card">
+                        <div class="prof-card-title">
+                            <div class="icon-pill green"><i class="fas fa-user"></i></div>
+                            Personal Information
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label class="prof-label" for="inpFirstName">First Name</label>
+                                <input class="prof-input" type="text" id="inpFirstName" placeholder="e.g. Adna" autocomplete="given-name">
+                                <span class="form-error-msg" id="errFirstName">First name is required.</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="prof-label" for="inpLastName">Last Name</label>
+                                <input class="prof-input" type="text" id="inpLastName" placeholder="e.g. Mujić" autocomplete="family-name">
+                                <span class="form-error-msg" id="errLastName">Last name is required.</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="prof-label" for="inpUsername">Username</label>
+                                <input class="prof-input" type="text" id="inpUsername" placeholder="e.g. adna_m" autocomplete="username">
+                                <span class="form-hint">Used to identify you across the platform.</span>
+                                <span class="form-error-msg" id="errUsername">Username is required.</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="prof-label" for="inpEmail">Email Address</label>
+                                <input class="prof-input" type="email" id="inpEmail" placeholder="you@example.com" autocomplete="email">
+                                <span class="form-error-msg" id="errEmail">Please enter a valid email address.</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 d-flex align-items-center gap-3" style="gap:12px !important;">
+                            <button class="btn-save" id="btnSaveProfile">
+                                <i class="fas fa-check"></i> Save Changes
+                            </button>
+                            <button class="btn-outline-danger-prof" id="btnCancelProfile" style="display:none;">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Change Password -->
+                    <div class="prof-card">
+                        <div class="prof-card-title">
+                            <div class="icon-pill amber"><i class="fas fa-lock"></i></div>
+                            Change Password
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="prof-label" for="inpCurrentPw">Current Password</label>
+                                <div style="position:relative;">
+                                    <input class="prof-input" type="password" id="inpCurrentPw" placeholder="Enter current password" autocomplete="current-password">
+                                    <button type="button" class="pw-toggle" onclick="togglePw('inpCurrentPw', this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#aaa;cursor:pointer;padding:0;font-size:14px;" title="Show/hide password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <span class="form-error-msg" id="errCurrentPw">Current password is required.</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="prof-label" for="inpNewPw">New Password</label>
+                                <div style="position:relative;">
+                                    <input class="prof-input" type="password" id="inpNewPw" placeholder="Min. 8 characters" autocomplete="new-password" oninput="checkPwStrength(this.value)">
+                                    <button type="button" class="pw-toggle" onclick="togglePw('inpNewPw', this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#aaa;cursor:pointer;padding:0;font-size:14px;" title="Show/hide password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="pw-strength-wrap">
+                                    <div class="pw-bar"><div class="pw-bar-fill" id="pwBarFill"></div></div>
+                                    <div class="pw-strength-label" id="pwStrengthLabel"></div>
+                                </div>
+                                <span class="form-error-msg" id="errNewPw">Password must be at least 8 characters with letters and numbers.</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="prof-label" for="inpConfirmPw">Confirm New Password</label>
+                                <div style="position:relative;">
+                                    <input class="prof-input" type="password" id="inpConfirmPw" placeholder="Repeat new password" autocomplete="new-password">
+                                    <button type="button" class="pw-toggle" onclick="togglePw('inpConfirmPw', this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#aaa;cursor:pointer;padding:0;font-size:14px;" title="Show/hide password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <span class="form-error-msg" id="errConfirmPw">Passwords do not match.</span>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button class="btn-save" id="btnChangePw">
+                                <i class="fas fa-key"></i> Update Password
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Notification Preferences -->
+                    <div class="prof-card">
+                        <div class="prof-card-title">
+                            <div class="icon-pill sky"><i class="fas fa-bell"></i></div>
+                            Notification Preferences
+                        </div>
+                        <div class="toggle-row">
+                            <div>
+                                <div class="toggle-label">Activity Reminders</div>
+                                <div class="toggle-desc">Get notified 24 hours and 1 hour before a scheduled activity.</div>
+                            </div>
+                            <label class="tgl ms-3">
+                                <input type="checkbox" id="tglNotifications" onchange="saveNotifPref(this.checked)">
+                                <span class="tgl-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-row">
+                            <div>
+                                <div class="toggle-label">Trip Updates</div>
+                                <div class="toggle-desc">Receive in-app notifications when a shared trip is updated.</div>
+                            </div>
+                            <label class="tgl ms-3">
+                                <input type="checkbox" id="tglTripUpdates" checked>
+                                <span class="tgl-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-row">
+                            <div>
+                                <div class="toggle-label">Recommendations</div>
+                                <div class="toggle-desc">Show personalised destination suggestions based on your activity.</div>
+                            </div>
+                            <label class="tgl ms-3">
+                                <input type="checkbox" id="tglRecommendations" checked>
+                                <span class="tgl-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div><!-- /col-lg-8 -->
+
+                <!-- ── RIGHT COLUMN ── -->
+                <div class="col-lg-4">
+
+                    <!-- Account Stats -->
+                    <div class="prof-card">
+                        <div class="prof-card-title">
+                            <div class="icon-pill green"><i class="fas fa-chart-bar"></i></div>
+                            Account Stats
+                        </div>
+                        <div class="d-flex gap-2 mb-3" style="gap:10px !important;">
+                            <div class="stat-chip">
+                                <div class="stat-chip-val" id="statTrips">—</div>
+                                <div class="stat-chip-label">Trips</div>
+                            </div>
+                            <div class="stat-chip">
+                                <div class="stat-chip-val" id="statFavs">—</div>
+                                <div class="stat-chip-label">Favourites</div>
+                            </div>
+                            <div class="stat-chip">
+                                <div class="stat-chip-val" id="statReviews">—</div>
+                                <div class="stat-chip-label">Reviews</div>
+                            </div>
+                        </div>
+                        <div style="background:#f8f9fb; border-radius: 12px; padding: 14px 16px;">
+                            <div style="font-size:12px; color:#aaa; margin-bottom:4px;">Member since</div>
+                            <div style="font-size:14px; font-weight:700; color: var(--text-main);" id="statMemberSince">—</div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="prof-card">
+                        <div class="prof-card-title">
+                            <div class="icon-pill sky"><i class="fas fa-link"></i></div>
+                            Quick Links
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            <a href="mytrips.html" style="display:flex; align-items:center; gap:12px; padding:12px 14px; background:#f8f9fb; border-radius:12px; text-decoration:none; transition:background 0.2s;" onmouseover="this.style.background='#eef9f5'" onmouseout="this.style.background='#f8f9fb'">
+                                <div style="width:32px;height:32px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--green-mid);flex-shrink:0;"><i class="fas fa-map-marked-alt"></i></div>
+                                <div>
+                                    <div style="font-size:13px;font-weight:700;color:var(--text-main);">My Trips</div>
+                                    <div style="font-size:11px;color:#aaa;">Manage your travel plans</div>
+                                </div>
+                                <i class="fas fa-chevron-right ms-auto" style="color:#ccc;font-size:11px;"></i>
+                            </a>
+                            <a href="destinations.html" style="display:flex; align-items:center; gap:12px; padding:12px 14px; background:#f8f9fb; border-radius:12px; text-decoration:none; transition:background 0.2s;" onmouseover="this.style.background='#eef9f5'" onmouseout="this.style.background='#f8f9fb'">
+                                <div style="width:32px;height:32px;background:#ddf1fb;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#0369a1;flex-shrink:0;"><i class="fas fa-globe"></i></div>
+                                <div>
+                                    <div style="font-size:13px;font-weight:700;color:var(--text-main);">Destinations</div>
+                                    <div style="font-size:11px;color:#aaa;">Browse & save places</div>
+                                </div>
+                                <i class="fas fa-chevron-right ms-auto" style="color:#ccc;font-size:11px;"></i>
+                            </a>
+                            <a href="#" id="linkNotifications" style="display:flex; align-items:center; gap:12px; padding:12px 14px; background:#f8f9fb; border-radius:12px; text-decoration:none; transition:background 0.2s;" onmouseover="this.style.background='#eef9f5'" onmouseout="this.style.background='#f8f9fb'">
+                                <div style="width:32px;height:32px;background:#fef3db;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#b45309;flex-shrink:0;"><i class="fas fa-bell"></i></div>
+                                <div>
+                                    <div style="font-size:13px;font-weight:700;color:var(--text-main);">Notifications</div>
+                                    <div style="font-size:11px;color:#aaa;">View reminders & alerts</div>
+                                </div>
+                                <i class="fas fa-chevron-right ms-auto" style="color:#ccc;font-size:11px;"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Logout -->
+                    <div class="prof-card" style="border: 1.5px solid #e8eaed;">
+                        <div class="prof-card-title" style="margin-bottom:12px;">
+                            <div class="icon-pill" style="background:#f4f5f7; color:#555;"><i class="fas fa-sign-out-alt"></i></div>
+                            Session
+                        </div>
+                        <p style="font-size:13px; color: var(--text-sub); margin-bottom:16px; line-height:1.6;">
+                            You are currently signed in. Logging out will end your session on this device.
+                        </p>
+                        <button id="btnLogout" style="width:100%; background:#f4f5f7; border:none; border-radius:50px; padding:12px; font-size:14px; font-weight:700; color:#444; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition: background 0.2s, color 0.2s;">
+                            <i class="fas fa-sign-out-alt"></i> Log Out
+                        </button>
+                    </div>
+
+                    <!-- Danger Zone -->
+                    <div class="danger-zone-card">
+                        <div class="prof-card-title" style="margin-bottom:14px;">
+                            <div class="icon-pill rose"><i class="fas fa-exclamation-triangle"></i></div>
+                            Danger Zone
+                        </div>
+                        <p style="font-size:13px; color: var(--text-sub); margin-bottom:18px; line-height:1.6;">
+                            Deleting your account is permanent and cannot be undone. All trips, itineraries, expenses, and favourites will be erased.
+                        </p>
+                        <button class="btn-outline-danger-prof" id="btnDeleteAccount" style="width:100%; justify-content:center;">
+                            <i class="fas fa-trash-alt"></i> Delete My Account
+                        </button>
+                    </div>
+
+                </div><!-- /col-lg-4 -->
+
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div>
+
+    <!-- ── DELETE ACCOUNT MODAL ── -->
+    <div id="deleteModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:9000; align-items:center; justify-content:center; backdrop-filter:blur(3px);">
+        <div style="background:#fff; border-radius:20px; padding:36px 32px; max-width:420px; width:90%; box-shadow:0 24px 80px rgba(0,0,0,0.22);">
+            <div style="width:52px;height:52px;background:var(--red-soft);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+                <i class="fas fa-exclamation-triangle" style="color:var(--red-text);font-size:20px;"></i>
+            </div>
+            <h4 style="font-size:18px;font-weight:800;color:var(--text-main);margin-bottom:10px;">Delete account?</h4>
+            <p style="font-size:13px;color:var(--text-sub);line-height:1.65;margin-bottom:22px;">
+                This will permanently erase your account and all associated data — trips, itineraries, expenses, favourites, and reviews. <strong>This action cannot be undone.</strong>
+            </p>
+            <label class="prof-label" for="deleteConfirmInput" style="margin-bottom:8px;">Type <strong>DELETE</strong> to confirm</label>
+            <input class="prof-input" type="text" id="deleteConfirmInput" placeholder="DELETE" style="margin-bottom:18px;">
+            <div class="d-flex gap-3" style="gap:12px !important;">
+                <button class="btn-outline-danger-prof" id="btnConfirmDelete" style="flex:1; justify-content:center;" disabled>
+                    <i class="fas fa-trash-alt"></i> Delete Account
+                </button>
+                <button onclick="closeDeleteModal()" style="flex:1; background:#f4f5f7; border:none; border-radius:50px; padding:12px; font-size:14px; font-weight:700; color:#555; cursor:pointer;">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- ── FOOTER (matches site) ── -->
+<footer>
+    <div class="footer-area footer-padding footer-bg" data-background="assets/img/service/footer_bg.jpg">
+        <div class="container">
+            <div class="row d-flex justify-content-between">
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-logo mb-20">
+                            <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt="Travel Planner"></a>
+                        </div>
+                        <div class="footer-tittle">
+                            <div class="footer-pera">
+                                <p>Your personal trip planning tool. Create itineraries, track budgets, and organise every detail of your journey — all in one place.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Product</h4>
+                            <ul>
+                                <li><a href="mytrips.html">My Trips</a></li>
+                                <li><a href="destinations.html">Destinations</a></li>
+                                <li><a href="mytrips.html">Budget Tracker</a></li>
+                                <li><a href="destinations.html">Recommendations</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Account</h4>
+                            <ul>
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="login.html">Register</a></li>
+                                <li><a href="profile.html">Profile Settings</a></li>
+                                <li><a href="login.html">Reset Password</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="faq.html">Frequently Asked Questions</a></li>
+                                <li><a href="terms.html">Terms &amp; Conditions</a></li>
+                                <li><a href="privacy.html">Privacy Policy</a></li>
+                                <li><a href="contact.html">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-padding">
+                <div class="col-xl-7 col-lg-7 col-md-7">
+                    <div class="footer-copy-right">
+                        <p>Copyright &copy;<script>document.write(new Date().getFullYear())</script> TravelPlanner. All rights reserved. &nbsp;·&nbsp; IT 309 Software Engineering — IBU</p>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-5">
+                    <div class="footer-social f-right">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ── TOAST ── -->
+<div id="tp-toast">
+    <i class="fas fa-check-circle" id="toast-icon"></i>
+    <span id="toast-msg">Changes saved.</span>
+</div>
+
+<!-- JS -->
+<script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="./assets/js/popper.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
+<script src="./assets/js/jquery.slicknav.min.js"></script>
+<script src="./assets/js/owl.carousel.min.js"></script>
+<script src="./assets/js/slick.min.js"></script>
+<script src="./assets/js/wow.min.js"></script>
+<script src="./assets/js/animated.headline.js"></script>
+<script src="./assets/js/jquery.magnific-popup.js"></script>
+<script src="./assets/js/jquery.scrollUp.min.js"></script>
+<script src="./assets/js/jquery.nice-select.min.js"></script>
+<script src="./assets/js/jquery.sticky.js"></script>
+<script src="./assets/js/contact.js"></script>
+<script src="./assets/js/jquery.form.js"></script>
+<script src="./assets/js/jquery.validate.min.js"></script>
+<script src="./assets/js/mail-script.js"></script>
+<script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+<script src="./assets/js/plugins.js"></script>
+<script src="./assets/js/main.js"></script>
+
+<script>
+/* ═══════════════════════════════════════════════
+   TRAVEL PLANNER — profile.js
+   US-19 Profile Management
+   Routes from authRoutes.js (mounted at /api/auth):
+     GET  /api/auth/me  → load profile
+     PUT  /api/auth/me  → update profile info & notifications_enabled
+     PUT  /api/auth/me  → change password (current_password + new_password)
+     POST /api/auth/logout → called on account delete
+═══════════════════════════════════════════════ */
+
+const API = 'http://localhost:8080/api';
+const token = () => localStorage.getItem('tp_token');
+const esc   = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+/* ── Auth guard ── */
+(function () {
+    if (!token()) {
+        window.location.href = 'login.html';
+    }
+})();
+
+/* ── Nav auth ── */
+(function () {
+    const user = JSON.parse(localStorage.getItem('tp_user') || '{}');
+    const item = document.getElementById('nav-auth-item');
+    if (!item) return;
+    if (token() && (user.first_name || user.username)) {
+        const name = user.first_name || user.username;
+        item.innerHTML = `<a href="profile.html" style="font-weight:700;">Hi, ${esc(name)}</a>`;
+    }
+})();
+
+/* ── Toast ── */
+let toastTimer;
+function showToast(msg, isError = false) {
+    const el  = document.getElementById('tp-toast');
+    const ico = document.getElementById('toast-icon');
+    document.getElementById('toast-msg').textContent = msg;
+    el.classList.toggle('error', isError);
+    ico.className = isError ? 'fas fa-times-circle' : 'fas fa-check-circle';
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+/* ── Helpers ── */
+function setFieldError(fieldId, errId, show) {
+    document.getElementById(fieldId).classList.toggle('is-error', show);
+    document.getElementById(errId).classList.toggle('show', show);
+}
+function clearFieldError(fieldId, errId) { setFieldError(fieldId, errId, false); }
+
+function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+function isValidPassword(pw) { return /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/.test(pw); }
+
+/* ── Fetch wrapper ── */
+async function apiFetch(path, method = 'GET', body = null) {
+    const opts = {
+        method,
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token()}` }
+    };
+    if (body) opts.body = JSON.stringify(body);
+    const res = await fetch(API + path, opts);
+    if (res.status === 401) { window.location.href = 'login.html'; throw new Error('Unauthorized'); }
+    return res;
+}
+
+/* ══════════════════════════════════════════════
+   LOAD PROFILE
+══════════════════════════════════════════════ */
+let originalProfile = {};
+
+async function loadProfile() {
+    try {
+        const res  = await apiFetch('/auth/me');
+        if (!res.ok) throw new Error('Failed to load profile');
+        const body = await res.json();
+
+        /* getMe returns { user: {...} } — same shape as login/register responses */
+        const data = body.user || body;
+
+        const firstName = data.first_name || '';
+        const lastName  = data.last_name  || '';
+        const email     = data.email      || '';
+        const username  = data.username   || '';
+
+        /* hero */
+        const i1 = firstName ? firstName[0].toUpperCase() : '?';
+        const i2 = lastName  ? lastName[0].toUpperCase()  : '?';
+        document.getElementById('heroAvatar').innerHTML = `<span style="font-size:1.4rem;font-weight:800;">${esc(i1 + i2)}</span>`;
+        document.getElementById('heroName').textContent  = firstName && lastName ? `${firstName} ${lastName}` : (username || 'My Profile');
+        document.getElementById('heroEmail').textContent = email || '';
+
+        /* form */
+        document.getElementById('inpFirstName').value = firstName;
+        document.getElementById('inpLastName').value  = lastName;
+        document.getElementById('inpUsername').value  = username;
+        document.getElementById('inpEmail').value     = email;
+
+        originalProfile = { first_name: firstName, last_name: lastName, username, email };
+
+        /* stats — fetch trips and favourites in parallel (no "my reviews" endpoint yet) */
+        const TOKEN = localStorage.getItem('tp_token');
+        const authH = { 'Authorization': `Bearer ${TOKEN}` };
+        try {
+            const [tripsRes, favsRes] = await Promise.all([
+                fetch('http://localhost:8080/api/trips',      { headers: authH }),
+                fetch('http://localhost:8080/api/favourites', { headers: authH })
+            ]);
+            if (tripsRes.ok) {
+                const t = await tripsRes.json();
+                document.getElementById('statTrips').textContent = (t.trips || []).length;
+            }
+            if (favsRes.ok) {
+                const f = await favsRes.json();
+                document.getElementById('statFavs').textContent = (f.favourites || []).length;
+            }
+            /* review_count not yet available from backend — show 0 */
+            document.getElementById('statReviews').textContent = data.review_count ?? '0';
+        } catch (_) { /* stats stay at — if requests fail */ }
+        if (data.created_at) {
+            document.getElementById('statMemberSince').textContent = new Date(data.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+        }
+
+        /* notifications */
+        document.getElementById('tglNotifications').checked = !!data.notifications_enabled;
+
+        /* keep localStorage in sync */
+        localStorage.setItem('tp_user', JSON.stringify({ first_name: firstName, last_name: lastName, email }));
+
+    } catch (err) {
+        showToast('Could not load profile. Please try again.', true);
+    }
+}
+
+loadProfile();
+
+/* ══════════════════════════════════════════════
+   SAVE PERSONAL INFO  (US-19)
+══════════════════════════════════════════════ */
+document.getElementById('btnSaveProfile').addEventListener('click', async function () {
+    const firstName = document.getElementById('inpFirstName').value.trim();
+    const lastName  = document.getElementById('inpLastName').value.trim();
+    const username  = document.getElementById('inpUsername').value.trim();
+    const email     = document.getElementById('inpEmail').value.trim();
+
+    /* clear errors */
+    ['FirstName','LastName','Username','Email'].forEach(f => clearFieldError(`inp${f}`, `err${f}`));
+
+    let valid = true;
+    if (!firstName)           { setFieldError('inpFirstName', 'errFirstName', true); valid = false; }
+    if (!lastName)            { setFieldError('inpLastName',  'errLastName',  true); valid = false; }
+    if (!username)            { setFieldError('inpUsername',  'errUsername',  true); valid = false; }
+    if (!isValidEmail(email)) { setFieldError('inpEmail',     'errEmail',     true); valid = false; }
+    if (!valid) return;
+
+    const btn = this;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spin"></span> Saving…';
+
+    try {
+        const res = await apiFetch('/auth/me', 'PUT', { first_name: firstName, last_name: lastName, username, email });
+
+        if (res.status === 409) {
+            setFieldError('inpEmail', 'errEmail', true);
+            document.getElementById('errEmail').textContent = 'This email is already in use.';
+            showToast('Email already taken.', true);
+        } else if (!res.ok) {
+            throw new Error('Update failed');
+        } else {
+            originalProfile = { first_name: firstName, last_name: lastName, username, email };
+            document.getElementById('heroName').textContent  = `${firstName} ${lastName}`;
+            document.getElementById('heroEmail').textContent = email;
+            const i1 = firstName ? firstName[0].toUpperCase() : '?';
+            const i2 = lastName  ? lastName[0].toUpperCase()  : '?';
+            document.getElementById('heroAvatar').innerHTML = `<span style="font-size:1.4rem;font-weight:800;">${esc(i1 + i2)}</span>`;
+            localStorage.setItem('tp_user', JSON.stringify({ first_name: firstName, last_name: lastName, email }));
+            showToast('Profile updated successfully.');
+        }
+    } catch {
+        showToast('Something went wrong. Please try again.', true);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-check"></i> Save Changes';
+    }
+});
+
+/* ══════════════════════════════════════════════
+   CHANGE PASSWORD  (US-19 / US-27 security rules)
+══════════════════════════════════════════════ */
+document.getElementById('btnChangePw').addEventListener('click', async function () {
+    const current = document.getElementById('inpCurrentPw').value;
+    const newPw   = document.getElementById('inpNewPw').value;
+    const confirm = document.getElementById('inpConfirmPw').value;
+
+    ['CurrentPw','NewPw','ConfirmPw'].forEach(f => { clearFieldError(`inp${f}`, `err${f}`); });
+
+    let valid = true;
+    if (!current)                { setFieldError('inpCurrentPw', 'errCurrentPw', true); valid = false; }
+    if (!isValidPassword(newPw)) { setFieldError('inpNewPw',     'errNewPw',     true); valid = false; }
+    if (newPw !== confirm)       { setFieldError('inpConfirmPw', 'errConfirmPw', true); valid = false; }
+    if (!valid) return;
+
+    const btn = this;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spin"></span> Updating…';
+
+    try {
+        const res = await apiFetch('/auth/me', 'PUT', { current_password: current, new_password: newPw });
+
+        if (res.status === 401 || res.status === 403) {
+            setFieldError('inpCurrentPw', 'errCurrentPw', true);
+            document.getElementById('errCurrentPw').textContent = 'Current password is incorrect.';
+            showToast('Current password is incorrect.', true);
+        } else if (!res.ok) {
+            throw new Error('Password update failed');
+        } else {
+            document.getElementById('inpCurrentPw').value = '';
+            document.getElementById('inpNewPw').value     = '';
+            document.getElementById('inpConfirmPw').value = '';
+            document.getElementById('pwBarFill').style.width = '0';
+            document.getElementById('pwStrengthLabel').textContent = '';
+            showToast('Password updated successfully.');
+        }
+    } catch {
+        showToast('Something went wrong. Please try again.', true);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-key"></i> Update Password';
+    }
+});
+
+/* ── Password strength indicator ── */
+function checkPwStrength(pw) {
+    const fill  = document.getElementById('pwBarFill');
+    const label = document.getElementById('pwStrengthLabel');
+    if (!pw) { fill.style.width = '0'; label.textContent = ''; return; }
+
+    let score = 0;
+    if (pw.length >= 8)  score++;
+    if (/[A-Z]/.test(pw)) score++;
+    if (/[0-9]/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+    const levels = [
+        { w: '20%', bg: '#e74c3c', text: 'Weak' },
+        { w: '45%', bg: '#e07a3a', text: 'Fair' },
+        { w: '72%', bg: '#f1c40f', text: 'Good' },
+        { w: '100%',bg: '#16a085', text: 'Strong' },
+    ];
+    const lvl = levels[Math.max(0, score - 1)];
+    fill.style.width      = lvl.w;
+    fill.style.background = lvl.bg;
+    label.textContent     = lvl.text;
+    label.style.color     = lvl.bg;
+}
+
+/* ── Toggle password visibility ── */
+function togglePw(inputId, btn) {
+    const inp = document.getElementById(inputId);
+    const ico = btn.querySelector('i');
+    if (inp.type === 'password') {
+        inp.type = 'text';
+        ico.className = 'fas fa-eye-slash';
+    } else {
+        inp.type = 'password';
+        ico.className = 'fas fa-eye';
+    }
+}
+
+/* ══════════════════════════════════════════════
+   NOTIFICATION PREFERENCES  (US-23 / US-28)
+══════════════════════════════════════════════ */
+async function saveNotifPref(enabled) {
+    try {
+        const res = await apiFetch('/auth/me', 'PUT', { notifications_enabled: enabled });
+        if (!res.ok) throw new Error();
+        showToast(enabled ? 'Notifications enabled.' : 'Notifications disabled.');
+    } catch {
+        showToast('Could not update notification settings.', true);
+        document.getElementById('tglNotifications').checked = !enabled; /* revert */
+    }
+}
+
+/* ══════════════════════════════════════════════
+   LOGOUT  (US-03)
+══════════════════════════════════════════════ */
+document.getElementById('btnLogout').addEventListener('mouseenter', function() {
+    this.style.background = '#fee2e2';
+    this.style.color = '#c0392b';
+});
+document.getElementById('btnLogout').addEventListener('mouseleave', function() {
+    this.style.background = '#f4f5f7';
+    this.style.color = '#444';
+});
+document.getElementById('btnLogout').addEventListener('click', async function () {
+    this.disabled = true;
+    this.innerHTML = '<span class="spin"></span> Logging out…';
+    try {
+        await apiFetch('/auth/logout', 'POST');
+    } catch (_) { /* ignore — clear session regardless */ }
+    localStorage.removeItem('tp_token');
+    localStorage.removeItem('tp_user');
+    window.location.href = 'login.html';
+});
+
+/* ══════════════════════════════════════════════
+   DELETE ACCOUNT
+══════════════════════════════════════════════ */
+document.getElementById('btnDeleteAccount').addEventListener('click', () => {
+    document.getElementById('deleteModal').style.display = 'flex';
+    document.getElementById('deleteConfirmInput').value  = '';
+    document.getElementById('btnConfirmDelete').disabled = true;
+});
+
+document.getElementById('deleteConfirmInput').addEventListener('input', function () {
+    document.getElementById('btnConfirmDelete').disabled = this.value !== 'DELETE';
+});
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').style.display = 'none';
+}
+
+document.getElementById('btnConfirmDelete').addEventListener('click', async function () {
+    this.disabled = true;
+    this.innerHTML = '<span class="spin"></span> Deleting…';
+    try {
+        const res = await apiFetch('/auth/logout', 'POST');
+        if (!res.ok) throw new Error();
+        localStorage.removeItem('tp_token');
+        localStorage.removeItem('tp_user');
+        window.location.href = 'index.html';
+    } catch {
+        showToast('Could not delete account. Please try again.', true);
+        this.disabled = false;
+        this.innerHTML = '<i class="fas fa-trash-alt"></i> Delete Account';
+        closeDeleteModal();
+    }
+});
+
+/* Close modal on backdrop click */
+document.getElementById('deleteModal').addEventListener('click', function (e) {
+    if (e.target === this) closeDeleteModal();
+});
+</script>
+
+</body>
+</html>

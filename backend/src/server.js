@@ -1,15 +1,15 @@
-
-
 require("dotenv").config();
 
 const express = require("express");
 const cors    = require("cors");
 const helmet  = require("helmet");
+const path    = require("path");
 
 const authRoutes        = require("./routes/authRoutes");
 const tripRoutes        = require("./routes/tripRoutes");
 const destinationRoutes = require("./routes/destinationRoutes");
 const miscRoutes        = require("./routes/miscRoutes");
+const shareRoutes       = require("./routes/shareRoutes");
 const { errorHandler }  = require("./middleware/errorHandler");
 
 const app  = express();
@@ -20,12 +20,14 @@ app.use(cors({
   origin: "*",
   credentials: true,
 }));
-app.use(express.json());    
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "../../..")));
 
 app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
 
 app.use("/api/auth",         authRoutes);
 app.use("/api/trips",        tripRoutes);
+app.use("/api/share",        shareRoutes);
 app.use("/api/destinations", destinationRoutes);
 app.use("/api",              miscRoutes);   
 

@@ -1,11 +1,10 @@
-
-
 const router       = require("express").Router();
 const destinations = require("../controllers/destinationController");
 const reviews      = require("../controllers/reviewController");
 const { protect }  = require("../middleware/auth");
 const validate     = require("../middleware/validate");
 
+router.get("/",              destinations.getAllDestinations);
 router.get("/search",           protect, destinations.searchDestinations);
 router.get("/recommendations",  protect, destinations.getRecommendations);
 router.get("/:id",              protect, destinations.getDestination);

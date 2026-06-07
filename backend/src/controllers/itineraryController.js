@@ -1,5 +1,3 @@
-
-
 const db = require("../config/database");
 const { asyncHandler } = require("../middleware/errorHandler");
 
@@ -129,7 +127,17 @@ const scheduleActivityNotifications = async (activity, userId, trip) => {
   const user = await db.findById("users", userId);
   if (!user || !user.notifications_enabled) return;
 
-  const actDatetime = new Date(`${activity.activity_date}T${activity.activity_time || "09:00"}:00`);
+  /* activity_date comes from MySQL as a Date object — convert to YYYY-MM-DD string */
+  const dateStr = activity.activity_date instanceof Date
+    ? activity.activity_date.toISOString().slice(0, 10)
+    : String(activity.activity_date).slice(0, 10);
+
+  /* activity_time comes from MySQL as HH:MM:SS string */
+  const timeStr = activity.activity_time
+    ? String(activity.activity_time).slice(0, 5)
+    : "09:00";
+
+  const actDatetime = new Date(`${dateStr}T${timeStr}:00`);
   const offsets = [
     { minutes: 24 * 60, label: "24 hours" },
     { minutes:      60, label:  "1 hour"  },
